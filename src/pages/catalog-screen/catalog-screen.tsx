@@ -6,8 +6,20 @@ import Pagination from '../../components/pagination/pagination';
 import CatalogSort from '../../components/catalog-sort/catalog-sort';
 import CatalogFilter from '../../components/catalog-filter/catalog-filter';
 import Footer from '../../components/footer/footer';
+import { useAppSelector } from '../../hooks';
+import { getCamerasList } from '../../store/cameras-data/cameras-data.selectors';
+import { getPromoList } from '../../store/promo-data/promo-data.selectors';
+
 
 function CatalogScreen(): JSX.Element {
+
+  const camerasList = useAppSelector(getCamerasList);
+  const promoList = useAppSelector(getPromoList);
+
+  console.log('camerasList', camerasList);
+  console.log('promoList', promoList);
+
+
   return(
     <div className="wrapper">
       <Header />
