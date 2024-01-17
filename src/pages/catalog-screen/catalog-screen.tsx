@@ -6,18 +6,24 @@ import Pagination from '../../components/pagination/pagination';
 import CatalogSort from '../../components/catalog-sort/catalog-sort';
 import CatalogFilter from '../../components/catalog-filter/catalog-filter';
 import Footer from '../../components/footer/footer';
+import { useState } from 'react';
+import { ITEMS_PER_PAGE } from '../../const';
 import { useAppSelector } from '../../hooks';
 import { getCamerasList } from '../../store/cameras-data/cameras-data.selectors';
-import { getPromoList } from '../../store/promo-data/promo-data.selectors';
 
 
 function CatalogScreen(): JSX.Element {
 
+  const [currentPage, setCurrentPage] = useState(1);
   const camerasList = useAppSelector(getCamerasList);
-  const promoList = useAppSelector(getPromoList);
+  const totalPages = Math.ceil(camerasList.length / ITEMS_PER_PAGE);
 
-  console.log('camerasList', camerasList);
-  console.log('promoList', promoList);
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const displayedCameras = camerasList.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
 
   return(
@@ -40,8 +46,12 @@ function CatalogScreen(): JSX.Element {
 
                 <div className="catalog__content">
                   <CatalogSort />
-                  <ProductCardList />
-                  <Pagination />
+                  <ProductCardList products={displayedCameras} />
+                  <Pagination
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                    currentPage={currentPage}
+                  />
                 </div>
 
               </div>
