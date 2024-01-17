@@ -24,7 +24,7 @@ export const fetchCameraByIdAction = createAsyncThunk<TCamera, string, {
 }>(
   'fetchCameraById',
   async (id, { extra: api }) => {
-    const { data } = await api.get<TCamera>(`${APIRoute.Camera}`.replace('{cameraId}', id));
+    const { data } = await api.get<TCamera>(`https://camera-shop.accelerator.pages.academy/cameras/${id}`);
     return data;
   },
 );

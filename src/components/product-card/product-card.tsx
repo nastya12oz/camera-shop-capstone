@@ -1,4 +1,6 @@
 import { TCamera } from '../../types/cameras';
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const';
 
 
 type ProductCardProps = {
@@ -42,8 +44,8 @@ function ProductCard({productCard, onAddToBasket}: ProductCardProps): JSX.Elemen
       <div className="product-card__buttons">
         <button className="btn btn--purple product-card__btn" type="button" onClick={() => onAddToBasket(productCard)}>Купить
         </button>
-        <a className="btn btn--transparent" href="#">Подробнее
-        </a>
+        <Link className="btn btn--transparent" to={(`${AppRoute.Product}`.replace(':id', productCard.id))}>Подробнее
+        </Link>
       </div>
     </div>
 
