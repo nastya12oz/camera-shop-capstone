@@ -1,16 +1,23 @@
 import ProductCard from '../product-card/product-card';
+import { TCamerasList } from '../../types/cameras';
 
-function ProductCardList(): JSX.Element {
-  return(
+
+type ProductCardListProps = {
+  products: TCamerasList;
+}
+
+function ProductCardList({products}: ProductCardListProps): JSX.Element {
+
+
+  return (
     <div className="cards catalog__cards">
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
+      {products.map((camera) => (
+        <ProductCard key={camera.id} productCard={camera} />
+      ))}
     </div>
   );
 }
+
 
 export default ProductCardList;
 
