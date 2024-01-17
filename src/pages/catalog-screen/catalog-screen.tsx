@@ -6,20 +6,32 @@ import Pagination from '../../components/pagination/pagination';
 import CatalogSort from '../../components/catalog-sort/catalog-sort';
 import CatalogFilter from '../../components/catalog-filter/catalog-filter';
 import Footer from '../../components/footer/footer';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ITEMS_PER_PAGE } from '../../const';
 import { useAppSelector } from '../../hooks';
 import { getCamerasList } from '../../store/cameras-data/cameras-data.selectors';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 
 function CatalogScreen(): JSX.Element {
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const pageFromUrl = parseInt(searchParams.get('page') || '1', 10);
 
   const [currentPage, setCurrentPage] = useState(1);
   const camerasList = useAppSelector(getCamerasList);
   const totalPages = Math.ceil(camerasList.length / ITEMS_PER_PAGE);
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
+  useEffect(() => {
+    setCurrentPage(pageFromUrl);
+  }, [pageFromUrl]);
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+    const newSearch = newPage > 1 ? `?page=${newPage}` : '';
+    navigate(`${location.pathname}${newSearch}`, { replace: true });
   };
 
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
