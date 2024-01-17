@@ -11,6 +11,8 @@ import { ITEMS_PER_PAGE } from '../../const';
 import { useAppSelector } from '../../hooks';
 import { getCamerasList } from '../../store/cameras-data/cameras-data.selectors';
 import { useNavigate, useLocation } from 'react-router-dom';
+import ModalAddToBasket from '../../components/modal-add-to-basket/modal-add-to-basket';
+import { TCamera } from '../../types/cameras';
 
 
 function CatalogScreen(): JSX.Element {
@@ -23,6 +25,15 @@ function CatalogScreen(): JSX.Element {
   const [currentPage, setCurrentPage] = useState(1);
   const camerasList = useAppSelector(getCamerasList);
   const totalPages = Math.ceil(camerasList.length / ITEMS_PER_PAGE);
+
+  type ModalInfoState = {
+    isVisible: boolean;
+    product: TCamera | null;
+  };
+
+
+  const [modalInfo, setModalInfo] = useState<ModalInfoState>({ isVisible: false, product: null });
+
 
   useEffect(() => {
     setCurrentPage(pageFromUrl);
@@ -58,7 +69,10 @@ function CatalogScreen(): JSX.Element {
 
                 <div className="catalog__content">
                   <CatalogSort />
-                  <ProductCardList products={displayedCameras} />
+                  <ProductCardList
+                    products={displayedCameras}
+                    onAddToBasket={(product) => setModalInfo({ isVisible: true, product })}
+                  />
                   <Pagination
                     totalPages={totalPages}
                     onPageChange={handlePageChange}
@@ -72,6 +86,7 @@ function CatalogScreen(): JSX.Element {
           </section>
 
         </div>
+        {modalInfo.isVisible && modalInfo.product && <ModalAddToBasket product={modalInfo.product} onClose={() => setModalInfo({ isVisible: false, product: null })} />}
 
       </main>
 

@@ -3,9 +3,10 @@ import { TCamera } from '../../types/cameras';
 
 type ProductCardProps = {
   productCard: TCamera;
+  onAddToBasket: (camera: TCamera) => void;
 }
 
-function ProductCard({productCard}: ProductCardProps): JSX.Element {
+function ProductCard({productCard, onAddToBasket}: ProductCardProps): JSX.Element {
 
   const renderStars = () => {
     const stars = [];
@@ -39,7 +40,7 @@ function ProductCard({productCard}: ProductCardProps): JSX.Element {
         </p>
       </div>
       <div className="product-card__buttons">
-        <button className="btn btn--purple product-card__btn" type="button">Купить
+        <button className="btn btn--purple product-card__btn" type="button" onClick={() => onAddToBasket(productCard)}>Купить
         </button>
         <a className="btn btn--transparent" href="#">Подробнее
         </a>
