@@ -6,6 +6,8 @@ import { useAppSelector, useAppDispatch } from '../../hooks';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { fetchCameraByIdAction } from '../../store/api-actions';
+import { Helmet } from 'react-helmet-async';
+import Tabs from '../../components/tabs/tabs';
 
 function ProductScreen(): JSX.Element {
 
@@ -35,6 +37,9 @@ function ProductScreen(): JSX.Element {
 
   return(
     <div className="wrapper">
+      <Helmet>
+        Продукт - Фотошоп
+      </Helmet>
       <Header />
       <main>
 
@@ -77,35 +82,8 @@ function ProductScreen(): JSX.Element {
                     <use xlinkHref="#icon-add-basket"></use>
                   </svg>Добавить в корзину
                 </button>
-                <div className="tabs product__tabs">
-                  <div className="tabs__controls product__tabs-controls">
-                    <button className="tabs__control" type="button">Характеристики</button>
-                    <button className="tabs__control is-active" type="button">Описание</button>
-                  </div>
-                  <div className="tabs__content">
-                    <div className="tabs__element">
-                      <ul className="product__tabs-list">
-                        <li className="item-list"><span className="item-list__title">Артикул:</span>
-                          <p className="item-list__text"> DA4IU67AD5</p>
-                        </li>
-                        <li className="item-list"><span className="item-list__title">Категория:</span>
-                          <p className="item-list__text">Видеокамера</p>
-                        </li>
-                        <li className="item-list"><span className="item-list__title">Тип камеры:</span>
-                          <p className="item-list__text">Коллекционная</p>
-                        </li>
-                        <li className="item-list"><span className="item-list__title">Уровень:</span>
-                          <p className="item-list__text">{camera.level}</p>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="tabs__element is-active">
-                      <div className="product__tabs-text">
-                        <p>{camera.description}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <Tabs product={camera} />
+
               </div>
             </div>
           </section>

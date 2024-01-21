@@ -13,6 +13,7 @@ import { getCamerasList } from '../../store/cameras-data/cameras-data.selectors'
 import { useNavigate, useLocation } from 'react-router-dom';
 import ModalAddToBasket from '../../components/modal-add-to-basket/modal-add-to-basket';
 import { TCamera } from '../../types/cameras';
+import { Helmet } from 'react-helmet-async';
 
 
 function CatalogScreen(): JSX.Element {
@@ -51,6 +52,9 @@ function CatalogScreen(): JSX.Element {
 
   return(
     <div className="wrapper">
+      <Helmet>
+        Каталог - Фотошоп
+      </Helmet>
       <Header />
 
       <main>
