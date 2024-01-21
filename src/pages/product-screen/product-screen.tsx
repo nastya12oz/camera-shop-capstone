@@ -39,7 +39,7 @@ function ProductScreen(): JSX.Element {
       <main>
 
         <div className="page-content">
-          <Breadcrumbs />
+          <Breadcrumbs productName={camera.name}/>
         </div>
         <div className="page-content__section">
           <section className="product">
@@ -51,7 +51,7 @@ function ProductScreen(): JSX.Element {
                 </picture>
               </div>
               <div className="product__content">
-                <h1 className="title title--h3">{camera.name}!!!!</h1>
+                <h1 className="title title--h3">{camera.name}</h1>
                 <div className="rate product__rate">
                   <svg width="17" height="16" aria-hidden="true">
                     <use xlinkHref="#icon-full-star"></use>
@@ -95,14 +95,13 @@ function ProductScreen(): JSX.Element {
                           <p className="item-list__text">Коллекционная</p>
                         </li>
                         <li className="item-list"><span className="item-list__title">Уровень:</span>
-                          <p className="item-list__text">Любительский</p>
+                          <p className="item-list__text">{camera.level}</p>
                         </li>
                       </ul>
                     </div>
                     <div className="tabs__element is-active">
                       <div className="product__tabs-text">
-                        <p>Немецкий концерн BRW разработал видеокамеру Das Auge IV в&nbsp;начале 80-х годов, однако она до&nbsp;сих пор пользуется популярностью среди коллекционеров и&nbsp;яростных почитателей старинной техники.</p>
-                        <p>Вы&nbsp;тоже можете прикоснуться к&nbsp;волшебству аналоговой съёмки, заказав этот чудо-аппарат. Кто знает, может с&nbsp;Das Auge IV&nbsp;начнётся ваш путь к&nbsp;наградам всех престижных кинофестивалей.</p>
+                        <p>{camera.description}</p>
                       </div>
                     </div>
                   </div>
