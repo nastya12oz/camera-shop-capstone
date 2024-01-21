@@ -4,6 +4,7 @@ export const ITEMS_PER_PAGE = 9;
 
 export enum AppRoute {
   Catalog = '/',
+  Product = 'Product/:id'
 }
 
 export enum APIRoute {
