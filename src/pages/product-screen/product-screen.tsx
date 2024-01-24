@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import { fetchCameraByIdAction } from '../../store/api-actions';
 import { Helmet } from 'react-helmet-async';
 import Tabs from '../../components/tabs/tabs';
+import SimilarProducts from '../../components/similar-products/similar-products';
 
 function ProductScreen(): JSX.Element {
 
@@ -88,6 +89,7 @@ function ProductScreen(): JSX.Element {
             </div>
           </section>
         </div>
+        <SimilarProducts id={camera.id.toString()} />
 
       </main>
       <Footer />

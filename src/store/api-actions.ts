@@ -36,7 +36,7 @@ export const fetchSimilarListAction = createAsyncThunk<TCamerasList, string, {
 }>(
   'fetchSimilarList',
   async (id, { extra: api}) => {
-    const {data} = await api.get<TCamerasList>(APIRoute.Similar.replace('{cameraId}', id));
+    const {data} = await api.get<TCamerasList>(`https://camera-shop.accelerator.pages.academy/cameras/${id}/similar`);
     return data;
   },
 );

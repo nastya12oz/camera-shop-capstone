@@ -1,6 +1,8 @@
 import { useAppSelector } from '../../hooks';
 import { getPromoList } from '../../store/promo-data/promo-data.selectors';
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const';
 
 function Banner(): JSX.Element {
   const promoList = useAppSelector(getPromoList);
@@ -31,7 +33,7 @@ function Banner(): JSX.Element {
             <span className="banner__message">Новинка!</span>
             <span className="title title--h1">{currentPromo.name}</span>
             <span className="banner__text">Профессиональная камера от&nbsp;известного производителя</span>
-            <a className="btn" href="#">Подробнее</a>
+            <Link className="btn" to={(`${AppRoute.Product}`.replace(':id', currentPromo.id.toString()))}>Подробнее</Link>
           </p>
         </>
       )}
