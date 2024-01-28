@@ -13,7 +13,6 @@ type ProductCardListProps = {
 function ProductCardList({products, onAddToBasket, isActive}: ProductCardListProps): JSX.Element {
   const {pathname} = useLocation();
   const isCatalogPage = pathname === AppRoute.Catalog;
-  console.log(isActive);
 
   return (
     isCatalogPage ? (

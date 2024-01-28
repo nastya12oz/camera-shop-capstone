@@ -1,6 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
-import { APIRoute } from '../const';
 import { TCamerasList, TCamera } from '../types/cameras';
 import { TPromosList } from '../types/promo';
 import { AppDispatch, State } from '../types/state';
@@ -12,7 +11,7 @@ export const fetchCamerasListAction = createAsyncThunk<TCamerasList, undefined, 
 }>(
   'fetchCamerasList',
   async (_arg, { extra: api}) => {
-    const {data} = await api.get<TCamerasList>('https://camera-shop.accelerator.pages.academy/cameras');
+    const {data} = await api.get<TCamerasList>('https://camera-shop.accelerator.htmlacademy.pro/cameras');
     return data;
   },
 );
@@ -24,7 +23,7 @@ export const fetchCameraByIdAction = createAsyncThunk<TCamera, string, {
 }>(
   'fetchCameraById',
   async (id, { extra: api }) => {
-    const { data } = await api.get<TCamera>(`https://camera-shop.accelerator.pages.academy/cameras/${id}`);
+    const { data } = await api.get<TCamera>(`https://camera-shop.accelerator.htmlacademy.pro/cameras/${id}`);
     return data;
   },
 );
@@ -36,7 +35,7 @@ export const fetchSimilarListAction = createAsyncThunk<TCamerasList, string, {
 }>(
   'fetchSimilarList',
   async (id, { extra: api}) => {
-    const {data} = await api.get<TCamerasList>(`https://camera-shop.accelerator.pages.academy/cameras/${id}/similar`);
+    const {data} = await api.get<TCamerasList>(`https://camera-shop.accelerator.htmlacademy.pro/cameras/${id}/similar`);
     return data;
   },
 );
@@ -48,7 +47,7 @@ export const fetchPromoAction = createAsyncThunk<TPromosList, undefined, {
 }>(
   'fetchPromo',
   async (_arg, { extra: api}) => {
-    const {data} = await api.get<TPromosList>('https://camera-shop.accelerator.pages.academy/promo');
+    const {data} = await api.get<TPromosList>('https://camera-shop.accelerator.htmlacademy.pro/promo');
     return data;
   },
 );
