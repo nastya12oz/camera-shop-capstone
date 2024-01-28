@@ -75,6 +75,7 @@ function CatalogScreen(): JSX.Element {
                   <CatalogSort />
                   <ProductCardList
                     products={displayedCameras}
+                    isActive={false}
                     onAddToBasket={(product) => setModalInfo({ isVisible: true, product })}
                   />
                   <Pagination
