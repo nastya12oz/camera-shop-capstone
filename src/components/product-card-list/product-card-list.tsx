@@ -14,30 +14,19 @@ function ProductCardList({products, onAddToBasket, isActive}: ProductCardListPro
   const {pathname} = useLocation();
   const isCatalogPage = pathname === AppRoute.Catalog;
 
+  const className = isCatalogPage ? 'cards catalog__cards' : 'product-similar__slider-list';
+
   return (
-    isCatalogPage ? (
-      <div className="cards catalog__cards">
-        {products.map((camera) => (
-          <ProductCard
-            key={camera.id}
-            productCard={camera}
-            onAddToBasket={() => onAddToBasket(camera)}
-            isActive={isActive}
-          />
-        ))}
-      </div>
-    ) : (
-      <div className="product-similar__slider-list">
-        {products.map((camera) => (
-          <ProductCard
-            key={camera.id}
-            productCard={camera}
-            onAddToBasket={() => onAddToBasket(camera)}
-            isActive={isActive}
-          />
-        ))}
-      </div>
-    )
+    <div className={className}>
+      {products.map((camera) => (
+        <ProductCard
+          key={camera.id}
+          productCard={camera}
+          onAddToBasket={() => onAddToBasket(camera)}
+          isActive={isActive}
+        />
+      ))}
+    </div>
   );
 }
 

@@ -66,14 +66,26 @@ export const fetchReviewsAction = createAsyncThunk<TReviews, string, {
 );
 
 
-export const fetchSendReviewAction = createAsyncThunk<TReviewSent, {rating: number; comment: string; id: string}, {
-  dispatch: AppDispatch;
-  state: State;
-  extra: AxiosInstance;
-}>(
+export const fetchSendReviewAction = createAsyncThunk<TReviewSent,
+  {
+    cameraId: number;
+    userName: string;
+    advantage: string;
+    disadvantage: string;
+    review: string;
+    rating: number;
+  },
+  {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }
+>(
   'fetchSendReviewAction',
-  async ({id, rating, comment}, { extra: api}) => {
-    const { data } = await api.post<TReviewSent>(`https://camera-shop.accelerator.htmlacademy.pro/cameras/${id}`, {rating, comment});
-    return(data);
+  async ({ cameraId, userName, advantage, disadvantage, review, rating }, { extra: api }) => {
+    const payload = { userName, advantage, disadvantage, review, rating };
+    const { data } = await api.post<TReviewSent>(`https://camera-shop.accelerator.htmlacademy.pro/cameras/${cameraId}/reviews`, payload);
+    return data;
   },
 );
+

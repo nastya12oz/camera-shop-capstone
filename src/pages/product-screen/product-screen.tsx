@@ -11,8 +11,16 @@ import Tabs from '../../components/tabs/tabs';
 import SimilarProducts from '../../components/similar-products/similar-products';
 import RatingStars from '../../components/rating-stars/rating-stars';
 import ReviewsList from '../../components/reviews-list/reviews-list';
+import UpButton from '../../components/up-button/up-button';
+import { useState } from 'react';
+import ModalAddReview from '../../components/modal-add-review/modal-add-review';
+
 
 function ProductScreen(): JSX.Element {
+
+
+  const [modalInfo, setModalInfo] = useState<boolean>(true);
+
 
   const {id} = useParams();
   const dispatch = useAppDispatch();
@@ -78,7 +86,9 @@ function ProductScreen(): JSX.Element {
           <SimilarProducts id={camera.id.toString()} />
           <ReviewsList />
         </div>
+        {modalInfo && <ModalAddReview />}
       </main>
+      <UpButton />
       <Footer />
     </div>
   );
