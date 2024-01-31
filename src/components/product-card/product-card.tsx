@@ -2,6 +2,7 @@ import { TCamera } from '../../types/cameras';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import classNames from 'classnames';
+import RatingStars from '../rating-stars/rating-stars';
 
 
 type ProductCardProps = {
@@ -12,20 +13,6 @@ type ProductCardProps = {
 }
 
 function ProductCard({productCard, onAddToBasket, isActive = false}: ProductCardProps): JSX.Element {
-  console.log(isActive);
-
-
-  const renderStars = () => {
-    const stars = [];
-    for (let i = 0; i < 5; i++) {
-      stars.push(
-        <svg width={17} height={16} aria-hidden="true" key={i}>
-          <use xlinkHref={i < productCard.rating ? '#icon-full-star' : '#icon-star'}></use>
-        </svg>
-      );
-    }
-    return stars;
-  };
 
 
   return(
@@ -38,7 +25,7 @@ function ProductCard({productCard, onAddToBasket, isActive = false}: ProductCard
       </div>
       <div className="product-card__info">
         <div className="rate product-card__rate">
-          {renderStars()}
+          <RatingStars rating={productCard.rating} />
           <p className="visually-hidden">Рейтинг: {productCard.rating}</p>
           <p className="rate__count"><span className="visually-hidden">Всего оценок:</span>{productCard.reviewCount}</p>
         </div>

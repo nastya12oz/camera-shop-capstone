@@ -3,6 +3,7 @@ import { AxiosInstance } from 'axios';
 import { TCamerasList, TCamera } from '../types/cameras';
 import { TPromosList } from '../types/promo';
 import { AppDispatch, State } from '../types/state';
+import { TReviews, TReviewSent } from '../types/reviews';
 
 export const fetchCamerasListAction = createAsyncThunk<TCamerasList, undefined, {
   dispatch: AppDispatch;
@@ -50,4 +51,28 @@ export const fetchPromoAction = createAsyncThunk<TPromosList, undefined, {
     const {data} = await api.get<TPromosList>('https://camera-shop.accelerator.htmlacademy.pro/promo');
     return data;
   },
+);
+
+export const fetchReviewsAction = createAsyncThunk<TReviews, string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'fetchReviews',
+  async (id: string, { extra: api }) => {
+    const response = await api.get<TReviews>(`https://camera-shop.accelerator.htmlacademy.pro/cameras/${id}/reviews`);
+    return response.data;
+  }
+);
+
+
+export const fetchSendReviewAction = createAsyncThunk<void, TReviewSent, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'fetchSendReviewAction',
+  async(data, {extra: api}) => {
+    await api.post<void>('https://camera-shop.accelerator.htmlacademy.pro/reviews', data);
+  }
 );
