@@ -7,7 +7,7 @@ export const DISPLAYED_REVIEWS = 3;
 
 export enum AppRoute {
   Catalog = '/',
-  Product = 'Product/:id'
+  Product = '/product/:id'
 }
 
 export enum APIRoute {

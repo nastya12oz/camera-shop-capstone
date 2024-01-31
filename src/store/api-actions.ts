@@ -85,6 +85,7 @@ export const fetchSendReviewAction = createAsyncThunk<TReviewSent,
   async ({ cameraId, userName, advantage, disadvantage, review, rating }, { extra: api }) => {
     const payload = { userName, advantage, disadvantage, review, rating };
     const { data } = await api.post<TReviewSent>(`https://camera-shop.accelerator.htmlacademy.pro/cameras/${cameraId}/reviews`, payload);
+    console.log(data);
     return data;
   },
 );

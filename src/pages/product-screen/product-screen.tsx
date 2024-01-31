@@ -86,7 +86,7 @@ function ProductScreen(): JSX.Element {
           <SimilarProducts id={camera.id.toString()} />
           <ReviewsList />
         </div>
-        {modalInfo && <ModalAddReview />}
+        {modalInfo && <ModalAddReview cameraId={camera.id.toString()} />}
       </main>
       <UpButton />
       <Footer />

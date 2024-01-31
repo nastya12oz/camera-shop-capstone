@@ -1,4 +1,49 @@
-function ModalAddReview(): JSX.Element {
+import { Fragment, useState, FormEvent } from 'react';
+import { useAppDispatch } from '../../hooks';
+import { fetchSendReviewAction } from '../../store/api-actions';
+import { validateInputLength } from '../../utils';
+
+type ModalAddReviewProps = {
+  cameraId: string;
+}
+function ModalAddReview({cameraId}: ModalAddReviewProps): JSX.Element {
+
+  const [userName, setUserName] = useState('');
+  const [advantage, setAdvantage] = useState('');
+  const [disadvantage, setDisadvantage] = useState('');
+  const [review, setReview] = useState('');
+  const [rating, setRating] = useState(0);
+  const [errorMessage, setErrorMessage] = useState('');
+
+
+  const dispatch = useAppDispatch();
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!validateInputLength(userName, 2, 15) ||
+    !validateInputLength(advantage, 10, 160) ||
+    !validateInputLength(disadvantage, 10, 160) ||
+    !validateInputLength(review, 10, 160)) {
+      setErrorMessage('Проверьте правильность заполнения полей: имя (2-15 символов), преимущества, недостатки, и комментарий (10-160 символов каждый).');
+      return;
+    }
+
+
+    const reviewData = {
+      cameraId: 3,
+      userName,
+      advantage,
+      disadvantage,
+      review,
+      rating
+    };
+    // dispatch(fetchSendReviewAction(reviewData));
+    setErrorMessage('');
+
+  };
+
+
   return(
     <div className="modal is-active">
       <div className="modal__wrapper">
@@ -6,7 +51,7 @@ function ModalAddReview(): JSX.Element {
         <div className="modal__content">
           <p className="title title--h4">Оставить отзыв</p>
           <div className="form-review">
-            <form method="post">
+            <form method="post" onSubmit={handleSubmit}>
               <div className="form-review__rate">
                 <fieldset className="rate form-review__item">
                   <legend className="rate__caption">Рейтинг
@@ -16,16 +61,24 @@ function ModalAddReview(): JSX.Element {
                   </legend>
                   <div className="rate__bar">
                     <div className="rate__group">
-                      <input className="visually-hidden" id="star-5" name="rate" type="radio" value="5" />
-                      <label className="rate__label" htmlFor="star-5" title="Отлично"></label>
-                      <input className="visually-hidden" id="star-4" name="rate" type="radio" value="4" />
-                      <label className="rate__label" htmlFor="star-4" title="Хорошо"></label>
-                      <input className="visually-hidden" id="star-3" name="rate" type="radio" value="3" />
-                      <label className="rate__label" htmlFor="star-3" title="Нормально"></label>
-                      <input className="visually-hidden" id="star-2" name="rate" type="radio" value="2" />
-                      <label className="rate__label" htmlFor="star-2" title="Плохо"></label>
-                      <input className="visually-hidden" id="star-1" name="rate" type="radio" value="1" />
-                      <label className="rate__label" htmlFor="star-1" title="Ужасно"></label>
+                      {[...Array(5)].map((_, index) => {
+                        const ratingValue = 5 - index; // Rating values from 5 to 1
+                        return (
+                          <Fragment key={ratingValue}>
+                            <input
+                              className="visually-hidden"
+                              id={`star-${ratingValue}`}
+                              name="rate"
+                              type="radio"
+                              value={ratingValue}
+                              checked={rating === ratingValue}
+                              onChange={() => setRating(ratingValue)}
+                            />
+                            <label className="rate__label" htmlFor={`star-${ratingValue}`} title={`${ratingValue} stars`}></label>
+                          </Fragment>
+                        );
+                      })}
+
                     </div>
                     <div className="rate__progress">
                       <span className="rate__stars">0</span>
@@ -42,7 +95,14 @@ function ModalAddReview(): JSX.Element {
                         <use xlinkHref="#icon-snowflake"></use>
                       </svg>
                     </span>
-                    <input type="text" name="user-name" placeholder="Введите ваше имя" required />
+                    <input
+                      type="text"
+                      name="user-name"
+                      placeholder="Введите ваше имя"
+                      value={userName}
+                      required
+                      onChange={(e) => setUserName(e.target.value)}
+                    />
                   </label>
                   <p className="custom-input__error">Нужно указать имя</p>
                 </div>
@@ -53,7 +113,14 @@ function ModalAddReview(): JSX.Element {
                         <use xlinkHref="#icon-snowflake"></use>
                       </svg>
                     </span>
-                    <input type="text" name="user-plus" placeholder="Основные преимущества товара" required />
+                    <input
+                      type="text"
+                      name="user-plus"
+                      placeholder="Основные преимущества товара"
+                      required
+                      value={advantage}
+                      onChange={(e) => setAdvantage(e.target.value)}
+                    />
                   </label>
                   <p className="custom-input__error">Нужно указать достоинства</p>
                 </div>
@@ -64,7 +131,14 @@ function ModalAddReview(): JSX.Element {
                         <use xlinkHref="#icon-snowflake"></use>
                       </svg>
                     </span>
-                    <input type="text" name="user-minus" placeholder="Главные недостатки товара" required />
+                    <input
+                      type="text"
+                      name="user-minus"
+                      placeholder="Главные недостатки товара"
+                      required
+                      value={disadvantage}
+                      onChange={(e) => setDisadvantage(e.target.value)}
+                    />
                   </label>
                   <p className="custom-input__error">Нужно указать недостатки</p>
                 </div>
@@ -75,11 +149,20 @@ function ModalAddReview(): JSX.Element {
                         <use xlinkHref="#icon-snowflake"></use>
                       </svg>
                     </span>
-                    <textarea name="user-comment" minLength={5} placeholder="Поделитесь своим опытом покупки"></textarea>
+                    <textarea
+                      name="user-comment"
+                      minLength={5}
+                      placeholder="Поделитесь своим опытом покупки"
+                      value={review}
+                      onChange={(e) => setReview(e.target.value)}
+                    >
+
+                    </textarea>
                   </label>
-                  <div className="custom-textarea__error">Нужно добавить комментарий</div>
+                  <div className="custom-input__error">Нужно добавить комментарий</div>
                 </div>
               </div>
+              {errorMessage && <div className="custom-textarea__error">{errorMessage}</div>}
               <button className="btn btn--purple form-review__btn" type="submit">Отправить отзыв</button>
             </form>
           </div>

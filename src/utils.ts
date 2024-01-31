@@ -10,3 +10,4 @@ export function sortByTop(reviewA: TReview, reviewB: TReview) {
 
 export const sortByDate = (reviews: TReviews) => [...reviews].sort(sortByTop);
 
+export const validateInputLength = (input: string, min: number, max: number) => input.length >= min && input.length <= max;
