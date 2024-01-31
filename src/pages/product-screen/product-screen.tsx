@@ -19,7 +19,7 @@ import ModalAddReview from '../../components/modal-add-review/modal-add-review';
 function ProductScreen(): JSX.Element {
 
 
-  const [modalInfo, setModalInfo] = useState<boolean>(true);
+  const [modalInfo, setModalInfo] = useState<boolean>(false);
 
 
   const {id} = useParams();
@@ -49,11 +49,12 @@ function ProductScreen(): JSX.Element {
 
   return(
     <div className="wrapper">
-      <Helmet>
-        Продукт - Фотошоп
-      </Helmet>
+
       <Header />
       <main>
+        <Helmet>
+        Продукт - Фотошоп
+        </Helmet>
         <div className="page-content">
           <Breadcrumbs productName={camera.name}/>
           <div className="page-content__section">
@@ -84,9 +85,9 @@ function ProductScreen(): JSX.Element {
             </section>
           </div>
           <SimilarProducts id={camera.id.toString()} />
-          <ReviewsList />
+          <ReviewsList onAddReviewButton={() => setModalInfo(true)} />
         </div>
-        {modalInfo && <ModalAddReview cameraId={camera.id.toString()} />}
+        {modalInfo && <ModalAddReview cameraId={camera.id.toString()} onClose={() => setModalInfo(false)} />}
       </main>
       <UpButton />
       <Footer />

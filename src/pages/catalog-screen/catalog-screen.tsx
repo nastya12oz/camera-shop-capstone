@@ -52,12 +52,11 @@ function CatalogScreen(): JSX.Element {
 
   return(
     <div className="wrapper">
-      <Helmet>
-        Каталог - Фотошоп
-      </Helmet>
       <Header />
-
       <main>
+        <Helmet>
+        Каталог - Фотошоп
+        </Helmet>
         <Banner />
 
         <div className="page-content">

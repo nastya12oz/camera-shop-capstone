@@ -27,7 +27,7 @@ function Breadcrumbs({productName}: BreadcrumbsProps): JSX.Element {
               </svg>
             </Link>
           </li>
-          {currentPath === 'Product' && (
+          {currentPath === 'product' && (
             <li className="breadcrumbs__item">
               <span className="breadcrumbs__link breadcrumbs__link--active">{productName}</span>
             </li>

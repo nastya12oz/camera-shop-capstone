@@ -6,7 +6,11 @@ import { useState } from 'react';
 import { DISPLAYED_REVIEWS } from '../../const';
 import { sortByDate } from '../../utils';
 
-function ReviewsList(): JSX.Element {
+type ReviewsListProps = {
+  onAddReviewButton: () => void;
+}
+
+function ReviewsList({onAddReviewButton}: ReviewsListProps): JSX.Element {
   const reviews = useAppSelector(getReviews);
   const [visibleReviewsCount, setVisibleReviewsCount] = useState(DISPLAYED_REVIEWS);
 
@@ -23,7 +27,7 @@ function ReviewsList(): JSX.Element {
         <div className="container">
           <div className="page-content__headed">
             <h2 className="title title--h3">Отзывы</h2>
-            <button className="btn" type="button">Оставить свой отзыв</button>
+            <button className="btn" type="button" onClick={onAddReviewButton}>Оставить свой отзыв</button>
           </div>
           <ul className="review-block__list">
             {

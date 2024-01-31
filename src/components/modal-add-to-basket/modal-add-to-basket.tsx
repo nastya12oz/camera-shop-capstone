@@ -1,7 +1,7 @@
 import { TCamera } from '../../types/cameras';
 
 type ModalAddToBasketProps = {
-  product: TCamera ;
+  product: TCamera;
   onClose: () => void;
 }
 
@@ -31,7 +31,7 @@ function ModalAddToBasket({product, onClose}: ModalAddToBasketProps): JSX.Elemen
             </div>
           </div>
           <div className="modal__buttons">
-            <button className="btn btn--purple modal__btn modal__btn--fit-width" type="button">
+            <button className="btn btn--purple modal__btn modal__btn--fit-width" type="button" onClick={onClose}>
               <svg width="24" height="16" aria-hidden="true">
                 <use xlinkHref="#icon-add-basket"></use>
               </svg>Добавить в корзину
