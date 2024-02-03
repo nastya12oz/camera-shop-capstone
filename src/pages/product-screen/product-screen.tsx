@@ -12,14 +12,11 @@ import SimilarProducts from '../../components/similar-products/similar-products'
 import RatingStars from '../../components/rating-stars/rating-stars';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import UpButton from '../../components/up-button/up-button';
-import { useState } from 'react';
-import ModalAddReview from '../../components/modal-add-review/modal-add-review';
+import SimilarProductsSwiper from '../../components/similar-products-swiper/similar-products-swiper';
+import ButtonAddToBasket from '../../components/button-add-to-basket/button-add-to-basket';
 
 
 function ProductScreen(): JSX.Element {
-
-
-  const [modalInfo, setModalInfo] = useState<boolean>(false);
 
 
   const {id} = useParams();
@@ -74,20 +71,16 @@ function ProductScreen(): JSX.Element {
                     <p className="rate__count"><span className="visually-hidden">Всего оценок:</span>{camera.reviewCount}</p>
                   </div>
                   <p className="product__price"><span className="visually-hidden">Цена:</span>{camera.price} ₽</p>
-                  <button className="btn btn--purple" type="button">
-                    <svg width={24} height={16} aria-hidden="true">
-                      <use xlinkHref="#icon-add-basket"></use>
-                    </svg>Добавить в корзину
-                  </button>
+                  <ButtonAddToBasket product={camera} buttonWithIcon />
                   <Tabs product={camera} />
                 </div>
               </div>
             </section>
           </div>
-          <SimilarProducts id={camera.id.toString()} />
-          <ReviewsList onAddReviewButton={() => setModalInfo(true)} />
+          {/* <SimilarProducts id={camera.id.toString()} /> */}
+          <SimilarProductsSwiper id={camera.id.toString()} />
+          <ReviewsList id={camera.id.toString()} />
         </div>
-        {modalInfo && <ModalAddReview cameraId={camera.id.toString()} onClose={() => setModalInfo(false)} />}
       </main>
       <UpButton />
       <Footer />

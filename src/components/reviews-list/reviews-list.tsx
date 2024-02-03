@@ -5,12 +5,13 @@ import { getReviews } from '../../store/reviews-data/reviews-data.selectors';
 import { useState } from 'react';
 import { DISPLAYED_REVIEWS } from '../../const';
 import { sortByDate } from '../../utils';
+import ButtonLeaveReview from '../button-leave-review/button-leave-review';
 
 type ReviewsListProps = {
-  onAddReviewButton: () => void;
+  id: string;
 }
 
-function ReviewsList({onAddReviewButton}: ReviewsListProps): JSX.Element {
+function ReviewsList({id}: ReviewsListProps): JSX.Element {
   const reviews = useAppSelector(getReviews);
   const [visibleReviewsCount, setVisibleReviewsCount] = useState(DISPLAYED_REVIEWS);
 
@@ -27,7 +28,8 @@ function ReviewsList({onAddReviewButton}: ReviewsListProps): JSX.Element {
         <div className="container">
           <div className="page-content__headed">
             <h2 className="title title--h3">Отзывы</h2>
-            <button className="btn" type="button" onClick={onAddReviewButton}>Оставить свой отзыв</button>
+            <ButtonLeaveReview id={id} />
+
           </div>
           <ul className="review-block__list">
             {

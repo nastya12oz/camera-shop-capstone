@@ -1,4 +1,6 @@
 import { TCamera } from '../../types/cameras';
+import { useEffect } from 'react';
+
 
 type ModalAddToBasketProps = {
   product: TCamera;
@@ -6,6 +8,22 @@ type ModalAddToBasketProps = {
 }
 
 function ModalAddToBasket({product, onClose}: ModalAddToBasketProps): JSX.Element {
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
+    };
+  }, [onClose]);
+
   return(
     <div className="modal is-active">
       <div className="modal__wrapper">

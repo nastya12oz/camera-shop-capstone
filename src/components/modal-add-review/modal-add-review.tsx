@@ -3,6 +3,9 @@ import { fetchSendReviewAction, fetchReviewsAction } from '../../store/api-actio
 import { useForm, SubmitHandler, FieldValues } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import { TReviewSent } from '../../types/reviews';
+import { useEffect, Fragment } from 'react';
+import classNames from 'classnames';
+import './modal-add-review.css';
 
 
 type ModalAddReviewProps = {
@@ -16,7 +19,6 @@ function ModalAddReview({cameraId, onClose}: ModalAddReviewProps): JSX.Element {
   const {id} = useParams();
   const {register, handleSubmit, formState: { errors } } = useForm({mode: 'onChange'});
 
-
   const handleFormSubmit: SubmitHandler<FieldValues> = (data) => {
     if (id) {
       const currentData = {...data, cameraId: Number(cameraId), rating: Number(data.rating)} as TReviewSent;
@@ -25,6 +27,21 @@ function ModalAddReview({cameraId, onClose}: ModalAddReviewProps): JSX.Element {
       onClose();
     }
   };
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
+    };
+  }, [onClose]);
 
 
   return(
@@ -50,7 +67,7 @@ function ModalAddReview({cameraId, onClose}: ModalAddReviewProps): JSX.Element {
                   <div className="rate__bar">
                     <div className="rate__group">
                       {Array.from({length: 5}, (_, i) => 5 - i).map((star) => (
-                        <>
+                        <Fragment key={star}>
                           <input
                             key={star}
                             className="visually-hidden"
@@ -63,7 +80,7 @@ function ModalAddReview({cameraId, onClose}: ModalAddReviewProps): JSX.Element {
                             )}
                           />
                           <label className="rate__label" htmlFor={`star-${star}`} title="Отлично"></label>
-                        </>
+                        </Fragment>
                       )
                       )}
                     </div>
@@ -73,7 +90,8 @@ function ModalAddReview({cameraId, onClose}: ModalAddReviewProps): JSX.Element {
                       <span className="rate__all-stars">5</span>
                     </div>
                   </div>
-                  <p className="rate__message">Нужно оценить товар</p>
+                  <p className={classNames('rate__message', {'custom-textarea__error-active' : errors.rating})}>{errors.rating?.message}</p>
+
                 </fieldset>
                 <div className="custom-input form-review__item">
                   <label>
@@ -97,7 +115,7 @@ function ModalAddReview({cameraId, onClose}: ModalAddReviewProps): JSX.Element {
                       placeholder="Введите ваше имя"
                     />
                   </label>
-                  {errors.userName && <p className="custom-input__error">Нужно указать имя</p>}
+                  <p className={classNames('custom-input__error', {'custom-textarea__error-active' : errors.userName})}>{errors.userName?.message}</p>
                 </div>
                 <div className="custom-input form-review__item">
                   <label>
@@ -107,7 +125,7 @@ function ModalAddReview({cameraId, onClose}: ModalAddReviewProps): JSX.Element {
                       </svg>
                     </span>
                     <input
-                      {...register('sadvantage', {
+                      {...register('advantage', {
                         required: 'Обязательное поле',
                         minLength: {
                           value: 2,
@@ -121,7 +139,7 @@ function ModalAddReview({cameraId, onClose}: ModalAddReviewProps): JSX.Element {
                       placeholder=" Достоинства"
                     />
                   </label>
-                  {errors.advantage && <p className="custom-input__error">Нужно указать достоинства</p>}
+                  <p className={classNames('custom-input__error', {'custom-textarea__error-active' : errors.advantage})}>{errors.advantage?.message}</p>
                 </div>
                 <div className="custom-input form-review__item">
                   <label>
@@ -145,8 +163,7 @@ function ModalAddReview({cameraId, onClose}: ModalAddReviewProps): JSX.Element {
                       placeholder="Недостатки"
                     />
                   </label>
-                  {errors.disadvantage && <p className="custom-input__error">Нужно указать недостатки</p>}
-
+                  <p className={classNames('custom-input__error', {'custom-textarea__error-active' : errors.disadvantage})}>{errors.disadvantage?.message}</p>
                 </div>
                 <div className="custom-textarea form-review__item">
                   <label>
@@ -170,7 +187,9 @@ function ModalAddReview({cameraId, onClose}: ModalAddReviewProps): JSX.Element {
                       placeholder="Поделитесь своим опытом покупки"
                     >
                     </textarea>
-                    {errors.review && <div className="custom-input__error">Нужно добавить комментарий</div>}
+                    <div className={classNames('custom-textarea__error', {'custom-textarea__error-active' : errors.review})}>
+                      {errors.review && <p>{errors.review?.message}</p>}
+                    </div>
                   </label>
                 </div>
               </div>
