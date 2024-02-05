@@ -3,9 +3,11 @@ import { fetchSendReviewAction, fetchReviewsAction } from '../../store/api-actio
 import { useForm, SubmitHandler, FieldValues } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import { TReviewSent } from '../../types/reviews';
-import { useEffect, Fragment } from 'react';
+import { useEffect, Fragment, useState } from 'react';
 import classNames from 'classnames';
 import './modal-add-review.css';
+import ModalReviewSuccess from '../modal-review-success/modal-review-success';
+import { createPortal } from 'react-dom';
 
 
 type ModalAddReviewProps = {
@@ -14,17 +16,20 @@ type ModalAddReviewProps = {
 }
 function ModalAddReview({cameraId, onClose}: ModalAddReviewProps): JSX.Element {
 
-
   const dispatch = useAppDispatch();
   const {id} = useParams();
   const {register, handleSubmit, formState: { errors } } = useForm({mode: 'onChange'});
+
+  const [showModalSuccess, setShowModalSuccess] = useState(false);
+
 
   const handleFormSubmit: SubmitHandler<FieldValues> = (data) => {
     if (id) {
       const currentData = {...data, cameraId: Number(cameraId), rating: Number(data.rating)} as TReviewSent;
       dispatch(fetchSendReviewAction(currentData));
       dispatch(fetchReviewsAction(cameraId));
-      onClose();
+      setShowModalSuccess(true);
+      // onClose();
     }
   };
 
@@ -60,7 +65,7 @@ function ModalAddReview({cameraId, onClose}: ModalAddReviewProps): JSX.Element {
               <div className="form-review__rate">
                 <fieldset className="rate form-review__item">
                   <legend className="rate__caption">Рейтинг
-                    <svg width="9" height="9" aria-hidden="true">
+                    <svg width={9} height={9} aria-hidden="true">
                       <use xlinkHref="#icon-snowflake"></use>
                     </svg>
                   </legend>
@@ -96,7 +101,7 @@ function ModalAddReview({cameraId, onClose}: ModalAddReviewProps): JSX.Element {
                 <div className="custom-input form-review__item">
                   <label>
                     <span className="custom-input__label">Ваше имя
-                      <svg width="9" height="9" aria-hidden="true">
+                      <svg width={9} height={9} aria-hidden="true">
                         <use xlinkHref="#icon-snowflake"></use>
                       </svg>
                     </span>
@@ -120,7 +125,7 @@ function ModalAddReview({cameraId, onClose}: ModalAddReviewProps): JSX.Element {
                 <div className="custom-input form-review__item">
                   <label>
                     <span className="custom-input__label">Достоинства
-                      <svg width="9" height="9" aria-hidden="true">
+                      <svg width={9} height={9} aria-hidden="true">
                         <use xlinkHref="#icon-snowflake"></use>
                       </svg>
                     </span>
@@ -197,13 +202,19 @@ function ModalAddReview({cameraId, onClose}: ModalAddReviewProps): JSX.Element {
             </form>
           </div>
           <button className="cross-btn" type="button" aria-label="Закрыть попап" onClick={onClose}>
-            <svg width="10" height="10" aria-hidden="true">
+            <svg width={10} height={10} aria-hidden="true">
               <use xlinkHref="#icon-close"></use>
             </svg>
           </button>
         </div>
       </div>
+      {
+        showModalSuccess && createPortal(<ModalReviewSuccess onClose={() => setShowModalSuccess(false)} />,
+          document.body
+        )
+      }
     </div>
+
   );
 }
 
