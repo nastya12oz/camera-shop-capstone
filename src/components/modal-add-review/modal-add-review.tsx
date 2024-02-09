@@ -195,10 +195,8 @@ function ModalAddReview({cameraId, onClose}: ModalAddReviewProps): JSX.Element {
                       placeholder="Поделитесь своим опытом покупки"
                     >
                     </textarea>
-                    <div className={classNames('custom-textarea__error', {'custom-textarea__error-active' : errors.review})}>
-                      {errors.review && <p>{errors.review?.message}</p>}
-                    </div>
                   </label>
+                  <div className={classNames('custom-textarea__error', {'custom-textarea__error-active' : errors.review})}>{errors.review?.message}</div>
                 </div>
               </div>
               <button className="btn btn--purple form-review__btn" type="submit">Отправить отзыв</button>
