@@ -1,46 +1,18 @@
-import { getSimilarsList } from '../../store/cameras-data/cameras-data.selectors';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { useEffect, useState } from 'react';
-import { fetchSimilarListAction } from '../../store/api-actions';
-import ProductCardList from '../product-card-list/product-card-list';
-import { TCamera } from '../../types/cameras';
+import { useState } from 'react';
 import { DISPLAYED_CARDS_IN_SLIDER } from '../../const';
+import ProductCard from '../product-card/product-card';
+import { TCamerasList } from '../../types/cameras';
 
 type SimilarProductsProps = {
-  id: string;
+  similarProductsList: TCamerasList;
 }
 
-function SimilarProducts({id}: SimilarProductsProps): JSX.Element {
+function SimilarProducts({similarProductsList}: SimilarProductsProps): JSX.Element {
 
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    if (id) {
-      dispatch(fetchSimilarListAction(id));
-    }
-  }, [id, dispatch]);
-
-  const similarList = useAppSelector(getSimilarsList);
-
-  type ModalInfoState = {
-    isVisible: boolean;
-    product: TCamera | null;
-  };
-
-
-  const [modalInfo, setModalInfo] = useState<ModalInfoState>({ isVisible: false, product: null });
-  const [visibleStartIndex, setVisibleStartIndex] = useState(0);
-
-  const handleNextClick = () => {
-    setVisibleStartIndex((prevIndex) => Math.min(prevIndex + DISPLAYED_CARDS_IN_SLIDER, similarList.length - DISPLAYED_CARDS_IN_SLIDER));
-  };
-
-  const handlePrevClick = () => {
-    setVisibleStartIndex((prevIndex) => Math.max(prevIndex - DISPLAYED_CARDS_IN_SLIDER, 0));
-  };
-
-  const isPrevDisabled = visibleStartIndex === 0;
-  const isNextDisabled = visibleStartIndex >= similarList.length - DISPLAYED_CARDS_IN_SLIDER;
+  const [similarProductsCount, setSimilarProductsCount] = useState(DISPLAYED_CARDS_IN_SLIDER);
+  const currentSimilar = similarProductsList.slice(similarProductsCount - DISPLAYED_CARDS_IN_SLIDER, similarProductsCount);
+  const isReturnButtonDisabled = similarProductsCount === DISPLAYED_CARDS_IN_SLIDER;
+  const isNextButtonDisabled = similarProductsList.length === similarProductsCount || similarProductsList.length < similarProductsCount && similarProductsList.length > similarProductsCount - DISPLAYED_CARDS_IN_SLIDER;
 
 
   return(
@@ -48,26 +20,33 @@ function SimilarProducts({id}: SimilarProductsProps): JSX.Element {
       <section className="product-similar">
         <div className="container">
           <h2 className="title title--h3">Похожие товары</h2>
-
           <div className="product-similar__slider">
-            <ProductCardList
-              products={similarList.slice(visibleStartIndex, visibleStartIndex + DISPLAYED_CARDS_IN_SLIDER)}
-              onAddToBasket={(product) => setModalInfo({ isVisible: true, product })}
-              isActive
-            />
-
-            <button className="slider-controls slider-controls--prev" type="button" aria-label="Предыдущий слайд" disabled={isPrevDisabled} onClick={handlePrevClick}>
+            <div className="product-similar__slider-list">
+              {currentSimilar.map((product) => <ProductCard key={product.id} productCard={product} isActive />)}
+            </div>
+            <button
+              className="controls slider-controls--prev"
+              type="button"
+              aria-label="Предыдущий слайд"
+              onClick={() => setSimilarProductsCount((prevCount) => prevCount - DISPLAYED_CARDS_IN_SLIDER)}
+              disabled={isReturnButtonDisabled}
+            >
               <svg width={7} height={12} aria-hidden="true">
                 <use xlinkHref="#icon-arrow"></use>
               </svg>
             </button>
-            <button className="slider-controls slider-controls--next" type="button" aria-label="Следующий слайд" disabled={isNextDisabled} onClick={handleNextClick}>
+            <button
+              className="controls slider-controls--next"
+              type="button"
+              aria-label="Следующий слайд"
+              onClick={() => setSimilarProductsCount((prevCount) => prevCount + DISPLAYED_CARDS_IN_SLIDER)}
+              disabled={isNextButtonDisabled}
+            >
               <svg width={7} height={12} aria-hidden="true">
                 <use xlinkHref="#icon-arrow"></use>
               </svg>
             </button>
           </div>
-
         </div>
       </section>
     </div>

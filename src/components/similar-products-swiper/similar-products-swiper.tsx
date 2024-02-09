@@ -1,64 +1,63 @@
-import 'swiper/css';
-import 'swiper/css/navigation';
-import { Navigation } from 'swiper/modules';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { getSimilarsList } from '../../store/cameras-data/cameras-data.selectors';
 import ProductCard from '../product-card/product-card';
-import { useEffect } from 'react';
-import { fetchSimilarListAction } from '../../store/api-actions';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import './similar-products-swiper.css';
+import { Navigation } from 'swiper/modules';
+import { DISPLAYED_CARDS_IN_SLIDER } from '../../const';
+import { TCamerasList } from '../../types/cameras';
 
-type SimilarProductsSwiperProps = {
-  id: string;
-}
+type SimilarProductsProps = {
+  similarProductsList: TCamerasList;
+};
 
-function SimilarProductsSwiper({id}: SimilarProductsSwiperProps): JSX.Element {
-  const dispatch = useAppDispatch();
+function SimilarProducts({similarProductsList}: SimilarProductsProps): JSX.Element {
 
-  useEffect(() => {
-    if (id) {
-      dispatch(fetchSimilarListAction(id));
-    }
-  }, [id, dispatch]);
-
-  const similarList = useAppSelector(getSimilarsList);
-
-  return(
-
+  return (
     <div className="page-content__section">
       <section className="product-similar">
         <div className="container">
           <h2 className="title title--h3">Похожие товары</h2>
-
-
           <div className="product-similar__slider">
-            <Swiper modules={[Navigation]}
-              slidesPerView={3}
-              navigation={{ nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' }}
+            <Swiper
+              modules={[Navigation]}
+              navigation={{
+                nextEl: '.slider-controls--next',
+                prevEl: '.slider-controls--prev',
+              }}
+              slidesPerView={DISPLAYED_CARDS_IN_SLIDER}
+              wrapperClass="product-similar__slider-list"
             >
-
-              {similarList.map((similarProduct) => <SwiperSlide key={similarProduct.id}><ProductCard productCard={similarProduct} isActive /></SwiperSlide>)}
-
+              {similarProductsList.map((product) => (
+                <SwiperSlide
+                  key={product.id}
+                >
+                  <ProductCard productCard={product} isActive />
+                </SwiperSlide>
+              ))}
             </Swiper>
 
-            <button className="swiper-button-prev slider-controls slider-controls--prev" type="button" aria-label="Предыдущий слайд">
+            <button
+              className="controls slider-controls--prev"
+              type="button"
+              aria-label="Предыдущий слайд"
+            >
               <svg width={7} height={12} aria-hidden="true">
                 <use xlinkHref="#icon-arrow"></use>
               </svg>
             </button>
-            <button className="swiper-button-next slider-controls slider-controls--next" type="button" aria-label="Следующий слайд">
+            <button
+              className="controls slider-controls--next"
+              type="button"
+              aria-label="Следующий слайд"
+            >
               <svg width={7} height={12} aria-hidden="true">
                 <use xlinkHref="#icon-arrow"></use>
               </svg>
             </button>
           </div>
-
         </div>
       </section>
     </div>
-
-
   );
 }
 
-export default SimilarProductsSwiper;
+export default SimilarProducts;

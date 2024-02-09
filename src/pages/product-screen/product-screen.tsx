@@ -5,7 +5,7 @@ import { getCamera, getCameraErrorStatus, getCameraLoadingStatus } from '../../s
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
-import { fetchCameraByIdAction, fetchReviewsAction } from '../../store/api-actions';
+import { fetchCameraByIdAction, fetchReviewsAction, fetchSimilarListAction } from '../../store/api-actions';
 import { Helmet } from 'react-helmet-async';
 import Tabs from '../../components/tabs/tabs';
 import SimilarProducts from '../../components/similar-products/similar-products';
@@ -14,6 +14,7 @@ import ReviewsList from '../../components/reviews-list/reviews-list';
 import UpButton from '../../components/up-button/up-button';
 import SimilarProductsSwiper from '../../components/similar-products-swiper/similar-products-swiper';
 import ButtonAddToBasket from '../../components/button-add-to-basket/button-add-to-basket';
+import { getSimilarsList } from '../../store/cameras-data/cameras-data.selectors';
 
 
 function ProductScreen(): JSX.Element {
@@ -24,11 +25,15 @@ function ProductScreen(): JSX.Element {
   const isCameroading = useAppSelector(getCameraLoadingStatus);
   const camera = useAppSelector(getCamera);
   const hasCameraError = useAppSelector(getCameraErrorStatus);
+  const similarProductsList = useAppSelector(getSimilarsList);
+
 
   useEffect(() => {
     if (id) {
       dispatch(fetchCameraByIdAction(id));
       dispatch(fetchReviewsAction(id));
+      dispatch(fetchSimilarListAction(id));
+
     }
   }, [id, dispatch]);
 
@@ -77,8 +82,11 @@ function ProductScreen(): JSX.Element {
               </div>
             </section>
           </div>
-          {/* <SimilarProducts id={camera.id.toString()} /> */}
-          <SimilarProductsSwiper id={camera.id.toString()} />
+          {
+            similarProductsList && <SimilarProducts similarProductsList={similarProductsList} />
+          /* <SimilarProductsSwiper id={camera.id.toString()} /> */
+          }
+
           <ReviewsList id={camera.id.toString()} />
         </div>
       </main>
