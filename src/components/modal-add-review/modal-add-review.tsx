@@ -2,7 +2,7 @@ import { useAppDispatch } from '../../hooks';
 import { fetchSendReviewAction, fetchReviewsAction } from '../../store/api-actions';
 import { useForm, SubmitHandler, FieldValues } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
-import { TReviewSent } from '../../types/reviews';
+import { TReviewSent, TReviewFromData } from '../../types/reviews';
 import { useEffect, Fragment, useState } from 'react';
 import classNames from 'classnames';
 import './modal-add-review.css';
@@ -18,7 +18,8 @@ function ModalAddReview({cameraId, onClose}: ModalAddReviewProps): JSX.Element {
 
   const dispatch = useAppDispatch();
   const {id} = useParams();
-  const {register, handleSubmit, formState: { errors } } = useForm({mode: 'onChange'});
+  const {register, handleSubmit, watch, formState: { errors } } = useForm<TReviewFromData>({mode: 'onChange'});
+  const ratingValue = watch('rating');
 
   const [showModalSuccess, setShowModalSuccess] = useState(false);
 
@@ -48,11 +49,13 @@ function ModalAddReview({cameraId, onClose}: ModalAddReviewProps): JSX.Element {
     };
   }, [onClose]);
 
+  const handleOverlayClick = () => onClose();
+
 
   return(
     <div className="modal is-active">
       <div className="modal__wrapper">
-        <div className="modal__overlay"></div>
+        <div className="modal__overlay" onClick={handleOverlayClick}></div>
         <div className="modal__content">
           <p className="title title--h4">Оставить отзыв</p>
           <div className="form-review">
@@ -90,7 +93,7 @@ function ModalAddReview({cameraId, onClose}: ModalAddReviewProps): JSX.Element {
                       )}
                     </div>
                     <div className="rate__progress">
-                      <span className="rate__stars">0</span>
+                      <span className="rate__stars">{ratingValue}</span>
                       <span>/</span>
                       <span className="rate__all-stars">5</span>
                     </div>

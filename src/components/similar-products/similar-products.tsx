@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { DISPLAYED_CARDS_IN_SLIDER } from '../../const';
 import ProductCard from '../product-card/product-card';
 import { TCamerasList } from '../../types/cameras';
+import './similar-products.css';
 
 type SimilarProductsProps = {
   similarProductsList: TCamerasList;

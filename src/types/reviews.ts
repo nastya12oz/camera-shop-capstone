@@ -19,3 +19,11 @@ export type TReviewSent = {
   review: string;
   rating: number;
 }
+
+export type TReviewFromData = {
+  userName: string;
+  advantage: string;
+  disadvantage: string;
+  review: string;
+  rating: number;
+}

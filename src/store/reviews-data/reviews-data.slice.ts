@@ -31,19 +31,5 @@ export const reviewsData = createSlice({
         state.hasReviewsError = true;
         state.isReviewsLoading = false;
       });
-    // .addCase(fetchSendReviewAction.pending, (state)=> {
-    //   state.hasReviewSendingError = false;
-    //   state.isReviewSending = true;
-    // })
-    // .addCase(fetchSendReviewAction.fulfilled, (state, action)=> {
-    //   state.hasReviewSendingError = false;
-    //   state.isReviewSending = false;
-    //   state.review = action.payload;
-
-    // })
-    // .addCase(fetchSendReviewAction.rejected, (state) => {
-    //   state.hasReviewSendingError = true;
-    //   state.isReviewSending = false;
-    // });
   }
 });
