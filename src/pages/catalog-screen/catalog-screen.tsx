@@ -1,5 +1,5 @@
 import Header from '../../components/header/header';
-import Banner from '../../components/banner/banner';
+import BannerSlider from '../../components/banner-slider/banner-slider';
 import Breadcrumbs from '../../components/breadcrumbs/breadcrumbs/breadcrumbs';
 import ProductCardList from '../../components/product-card-list/product-card-list';
 import Pagination from '../../components/pagination/pagination';
@@ -57,7 +57,7 @@ function CatalogScreen(): JSX.Element {
         <Helmet>
         Каталог - Фотошоп
         </Helmet>
-        <Banner />
+        <BannerSlider />
 
         <div className="page-content">
           <Breadcrumbs />
