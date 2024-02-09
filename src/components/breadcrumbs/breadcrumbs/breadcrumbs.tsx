@@ -20,21 +20,28 @@ function Breadcrumbs({productName}: BreadcrumbsProps): JSX.Element {
               </svg>
             </Link>
           </li>
-          <li className="breadcrumbs__item">
-            <Link className="breadcrumbs__link" to={AppRoute.Catalog}>Каталог
-              <svg width={5} height={8} aria-hidden="true">
-                <use xlinkHref="#icon-arrow-mini"></use>
-              </svg>
-            </Link>
-          </li>
           {currentPath === 'product' && (
-            <li className="breadcrumbs__item">
-              <span className="breadcrumbs__link breadcrumbs__link--active">{productName}</span>
-            </li>
+            <>
+              <li className="breadcrumbs__item">
+                <Link className="breadcrumbs__link" to={AppRoute.Catalog}>Каталог
+                  <svg width={5} height={8} aria-hidden="true">
+                    <use xlinkHref="#icon-arrow-mini"></use>
+                  </svg>
+                </Link>
+              </li>
+              <li className="breadcrumbs__item">
+                <span className="breadcrumbs__link breadcrumbs__link--active">{productName}</span>
+              </li>
+            </>
           )}
-          {currentPath === 'Basket' && (
+          {currentPath === 'basket' && (
             <li className="breadcrumbs__item">
               <span className="breadcrumbs__link breadcrumbs__link--active">Корзина</span>
+            </li>
+          )}
+          {currentPath !== 'product' && currentPath !== 'basket' && (
+            <li className="breadcrumbs__item">
+              <span className="breadcrumbs__link breadcrumbs__link--active">Каталог</span>
             </li>
           )}
         </ul>
