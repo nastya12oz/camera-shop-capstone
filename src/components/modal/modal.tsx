@@ -1,11 +1,13 @@
 import { useEffect } from 'react';
+import classNames from 'classnames';
 
 type ModalProps = {
   onClose: () => void;
   children: React.ReactNode;
+  isNarrow?: boolean;
 }
 
-function Modal({onClose, children}: ModalProps): JSX.Element {
+function Modal({onClose, children, isNarrow}: ModalProps): JSX.Element {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
@@ -24,7 +26,7 @@ function Modal({onClose, children}: ModalProps): JSX.Element {
   const handleOverlayClick = () => onClose();
 
   return(
-    <div className="modal is-active">
+    <div className={classNames('modal is-active', {'modal-narrow' : isNarrow})}>
       <div className="modal__wrapper">
         <div className="modal__overlay" onClick={handleOverlayClick}></div>
         <div className="modal__content">
