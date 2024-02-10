@@ -1,11 +1,14 @@
 import ReviewCard from '../review-card/review-card';
 import ButtonShowMoreReviews from '../button-show-more-reviews/button-show-more-reviews';
 import { useAppSelector } from '../../hooks';
-import { getReviews } from '../../store/reviews-data/reviews-data.selectors';
+import { getReviews, getReviewSentSuccessfullyStatus } from '../../store/reviews-data/reviews-data.selectors';
 import { useState } from 'react';
 import { DISPLAYED_REVIEWS } from '../../const';
 import { sortByDate } from '../../utils';
 import ButtonLeaveReview from '../button-leave-review/button-leave-review';
+import { useEffect } from 'react';
+import ModalReviewSuccess from '../modal-review-success/modal-review-success';
+import { createPortal } from 'react-dom';
 
 type ReviewsListProps = {
   id: string;
@@ -13,7 +16,17 @@ type ReviewsListProps = {
 
 function ReviewsList({id}: ReviewsListProps): JSX.Element {
   const reviews = useAppSelector(getReviews);
+  const reviewSentSuccessfully = useAppSelector(getReviewSentSuccessfullyStatus);
+
   const [visibleReviewsCount, setVisibleReviewsCount] = useState(DISPLAYED_REVIEWS);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+
+  useEffect(() => {
+    if (reviewSentSuccessfully) {
+      setShowSuccessModal(true);
+    }
+  }, [reviewSentSuccessfully]);
+
 
   const sortedReviews = sortByDate(reviews);
   const visibleReviews = sortedReviews.slice(0, visibleReviewsCount);
@@ -43,7 +56,13 @@ function ReviewsList({id}: ReviewsListProps): JSX.Element {
           )}
         </div>
       </section>
+
+      {showSuccessModal && createPortal(
+        <ModalReviewSuccess onClose={() => setShowSuccessModal(false)} />,
+        document.body
+      )}
     </div>
+
 
   );
 }
