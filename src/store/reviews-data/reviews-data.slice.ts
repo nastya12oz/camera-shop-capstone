@@ -16,7 +16,11 @@ const initialState: Reviews = {
 export const reviewsData = createSlice({
   name: NameSpace.Reviews,
   initialState,
-  reducers: {},
+  reducers: {
+    resetReviewSentSuccess(state) {
+      state.isReviewSentSuccessfully = false;
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchReviewsAction.pending, (state) => {
@@ -49,3 +53,5 @@ export const reviewsData = createSlice({
       });
   }
 });
+
+export const { resetReviewSentSuccess } = reviewsData.actions;

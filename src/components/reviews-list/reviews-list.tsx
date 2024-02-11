@@ -2,7 +2,7 @@ import ReviewCard from '../review-card/review-card';
 import ButtonShowMoreReviews from '../button-show-more-reviews/button-show-more-reviews';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { getReviews, getReviewSentSuccessfullyStatus } from '../../store/reviews-data/reviews-data.selectors';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { DISPLAYED_REVIEWS } from '../../const';
 import { sortByDate } from '../../utils';
 import ButtonLeaveReview from '../button-leave-review/button-leave-review';
@@ -10,6 +10,7 @@ import { useEffect } from 'react';
 import ModalReviewSuccess from '../modal-review-success/modal-review-success';
 import { createPortal } from 'react-dom';
 import { fetchReviewsAction } from '../../store/api-actions';
+import { resetReviewSentSuccess } from '../../store/reviews-data/reviews-data.slice';
 
 type ReviewsListProps = {
   id: number;
@@ -29,6 +30,11 @@ function ReviewsList({id}: ReviewsListProps): JSX.Element {
       setShowSuccessModal(true);
     }
   }, [reviewSentSuccessfully]);
+
+  const handleCloseModal = useCallback(() => {
+    setShowSuccessModal(false);
+    dispatch(resetReviewSentSuccess());
+  }, [dispatch]);
 
 
   const sortedReviews = sortByDate(reviews);
@@ -61,7 +67,7 @@ function ReviewsList({id}: ReviewsListProps): JSX.Element {
       </section>
 
       {showSuccessModal && createPortal(
-        <ModalReviewSuccess onClose={() => setShowSuccessModal(false)} />,
+        <ModalReviewSuccess onClose={handleCloseModal} />,
         document.body
       )}
     </div>
