@@ -1,16 +1,15 @@
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { fetchSendReviewAction, fetchReviewsAction } from '../../store/api-actions';
+import { useAppDispatch } from '../../hooks';
+import { fetchSendReviewAction } from '../../store/api-actions';
 import { useForm, SubmitHandler, FieldValues } from 'react-hook-form';
 import { TReviewSent, TReviewFromData } from '../../types/reviews';
 import { Fragment } from 'react';
 import classNames from 'classnames';
 import './modal-add-review.css';
-import { getReviewSendingStatus, getReviewSendingErrorStatus, getReviewSentSuccessfullyStatus } from '../../store/reviews-data/reviews-data.selectors';
 import Modal from '../modal/modal';
 
 
 type ModalAddReviewProps = {
-  cameraId: string;
+  cameraId: number;
   onClose: () => void;
 }
 function ModalAddReview({cameraId, onClose}: ModalAddReviewProps): JSX.Element {
@@ -19,20 +18,11 @@ function ModalAddReview({cameraId, onClose}: ModalAddReviewProps): JSX.Element {
   const {register, handleSubmit, watch, formState: { errors } } = useForm<TReviewFromData>({mode: 'onChange'});
   const ratingValue = watch('rating');
 
-  const isReviewSending = useAppSelector(getReviewSendingStatus);
-  const hasReviewSendingError = useAppSelector(getReviewSendingErrorStatus);
-  const isReviewSentSuccessfully = useAppSelector(getReviewSentSuccessfullyStatus);
-
-
   const handleFormSubmit: SubmitHandler<FieldValues> = (data) => {
-    if (!isReviewSending && !hasReviewSendingError) {
-      const currentData = {...data, cameraId: Number(cameraId), rating: Number(data.rating)} as TReviewSent;
+    if (cameraId) {
+      const currentData = {...data, cameraId, rating: Number(data.rating)} as TReviewSent;
       dispatch(fetchSendReviewAction(currentData));
-
-      if(isReviewSentSuccessfully) {
-        dispatch(fetchReviewsAction(cameraId));
-        onClose();
-      }
+      onClose();
     }
   };
 

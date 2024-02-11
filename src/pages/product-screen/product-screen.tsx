@@ -15,6 +15,7 @@ import UpButton from '../../components/up-button/up-button';
 import SimilarProductsSwiper from '../../components/similar-products-swiper/similar-products-swiper';
 import ButtonAddToBasket from '../../components/button-add-to-basket/button-add-to-basket';
 import { getSimilarsList } from '../../store/cameras-data/cameras-data.selectors';
+import NotFoundScreen from '../not-found-screen/not-found-screen';
 
 
 function ProductScreen(): JSX.Element {
@@ -45,7 +46,7 @@ function ProductScreen(): JSX.Element {
 
   if(hasCameraError || !camera) {
     return(
-      <p> hasCameraError...</p>
+      <NotFoundScreen />
     );
   }
 
@@ -87,7 +88,7 @@ function ProductScreen(): JSX.Element {
           /* <SimilarProductsSwiper id={camera.id.toString()} /> */
           }
 
-          <ReviewsList id={camera.id.toString()} />
+          <ReviewsList id={camera.id} />
         </div>
       </main>
       <UpButton />

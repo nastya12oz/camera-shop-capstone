@@ -1,8 +1,7 @@
 import { TCamera } from '../../types/cameras';
-import { useState } from 'react';
 import classNames from 'classnames';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
+import { CameraTab } from '../../const';
 
 
 type TabsProps = {
@@ -12,47 +11,33 @@ type TabsProps = {
 function Tabs({product}: TabsProps): JSX.Element {
 
   const navigate = useNavigate();
-  const location = useLocation();
-  const [activeTab, setActiveTab] = useState('description');
+  const [searchParams] = useSearchParams();
+  const {pathname} = useLocation();
+  const activeTab = searchParams.get('tab') || CameraTab.Description;
 
-  useEffect(() => {
-    const getTabFromUrl = () => new URLSearchParams(location.search).get('tab') || 'description';
-    const tabFromUrl = getTabFromUrl();
-
-    if (tabFromUrl === 'characteristics' || tabFromUrl === 'description') {
-      setActiveTab(tabFromUrl);
-    }
-  }, [location.search]);
-
-  const handleTabClick = (tab: string) => {
-    setActiveTab(tab);
-    const newSearchParams = new URLSearchParams();
-    newSearchParams.set('tab', tab);
-    navigate(`${location.pathname}?${newSearchParams.toString()}`, { replace: true });
-  };
 
   return(
     <div className="tabs product__tabs">
       <div className="tabs__controls product__tabs-controls">
         <button
-          className={classNames('tabs__control', { 'is-active': activeTab === 'characteristics' })}
-          onClick={() => handleTabClick('characteristics')}
+          className={classNames('tabs__control', { 'is-active': activeTab === CameraTab.Property })}
+          onClick={() => navigate(`${pathname}?tab=${CameraTab.Property}`)}
           type="button"
         >Характеристики
         </button>
         <button
-          className={classNames('tabs__control', { 'is-active': activeTab === 'description' })}
+          className={classNames('tabs__control', { 'is-active': activeTab === CameraTab.Description })}
           type="button"
-          onClick={() => handleTabClick('description')}
+          onClick={() => navigate(`${pathname}?tab=${CameraTab.Description}`)}
         >
           Описание
         </button>
       </div>
       <div className="tabs__content">
-        <div className={classNames('tabs__element', { 'is-active': activeTab === 'characteristics' })}>
+        <div className={classNames('tabs__element', { 'is-active': activeTab === CameraTab.Property })}>
           <ul className="product__tabs-list">
             <li className="item-list"><span className="item-list__title">Артикул:</span>
-              <p className="item-list__text"> {product.vendorCode}</p>
+              <p className="item-list__text">{product.vendorCode}</p>
             </li>
             <li className="item-list"><span className="item-list__title">Категория:</span>
               <p className="item-list__text">{product.category}</p>
@@ -65,7 +50,7 @@ function Tabs({product}: TabsProps): JSX.Element {
             </li>
           </ul>
         </div>
-        <div className={classNames('tabs__element', { 'is-active': activeTab === 'description' })}>
+        <div className={classNames('tabs__element', { 'is-active': activeTab === CameraTab.Description })}>
           <div className="product__tabs-text">
             <p>{product.description}</p>
           </div>

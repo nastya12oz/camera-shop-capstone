@@ -4,6 +4,8 @@ import { AppRoute } from '../../const';
 import classNames from 'classnames';
 import RatingStars from '../rating-stars/rating-stars';
 import ButtonAddToBasket from '../button-add-to-basket/button-add-to-basket';
+import { generatePath } from 'react-router-dom';
+import { CameraTab } from '../../const';
 
 
 type ProductCardProps = {
@@ -34,7 +36,11 @@ function ProductCard({productCard, isActive = false}: ProductCardProps): JSX.Ele
       </div>
       <div className="product-card__buttons">
         <ButtonAddToBasket product={productCard} />
-        <Link className="btn btn--transparent" to={(`${AppRoute.Product}`.replace(':id', productCard.id.toString()))}>Подробнее
+        <Link
+          className="btn btn--transparent"
+          to={`${generatePath(AppRoute.Product, { id: productCard.id.toString() })}?tab=${CameraTab.Description}`}
+        >
+  Подробнее
         </Link>
       </div>
     </div>

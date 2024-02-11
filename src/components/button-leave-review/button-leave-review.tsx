@@ -4,7 +4,7 @@ import ModalAddReview from '../modal-add-review/modal-add-review';
 
 
 type ButtonLeaveReviewProps ={
-  id: string;
+  id: number;
 }
 
 function ButtonLeaveReview({id}: ButtonLeaveReviewProps): JSX.Element {
