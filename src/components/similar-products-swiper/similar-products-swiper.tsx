@@ -1,36 +1,44 @@
-import { useState } from 'react';
-import { DISPLAYED_CARDS_IN_SLIDER } from '../../const';
 import ProductCard from '../product-card/product-card';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import './similar-products-swiper.css';
+import { Navigation } from 'swiper/modules';
+import { DISPLAYED_CARDS_IN_SLIDER } from '../../const';
 import { TCamerasList } from '../../types/cameras';
-import './similar-products.css';
 
 type SimilarProductsProps = {
   similarProductsList: TCamerasList;
-}
+};
 
 function SimilarProducts({similarProductsList}: SimilarProductsProps): JSX.Element {
 
-  const [similarProductsCount, setSimilarProductsCount] = useState(DISPLAYED_CARDS_IN_SLIDER);
-  const currentSimilar = similarProductsList.slice(similarProductsCount - DISPLAYED_CARDS_IN_SLIDER, similarProductsCount);
-  const isReturnButtonDisabled = similarProductsCount === DISPLAYED_CARDS_IN_SLIDER;
-  const isNextButtonDisabled = similarProductsList.length === similarProductsCount || similarProductsList.length < similarProductsCount && similarProductsList.length > similarProductsCount - DISPLAYED_CARDS_IN_SLIDER;
-
-
-  return(
+  return (
     <div className="page-content__section">
       <section className="product-similar">
         <div className="container">
           <h2 className="title title--h3">Похожие товары</h2>
           <div className="product-similar__slider">
-            <div className="product-similar__slider-list">
-              {currentSimilar.map((product) => <ProductCard key={product.id} productCard={product} isActive />)}
-            </div>
+            <Swiper
+              modules={[Navigation]}
+              navigation={{
+                nextEl: '.slider-controls--next',
+                prevEl: '.slider-controls--prev',
+              }}
+              slidesPerView={DISPLAYED_CARDS_IN_SLIDER}
+              wrapperClass="product-similar__slider-list"
+            >
+              {similarProductsList.map((product) => (
+                <SwiperSlide
+                  key={product.id}
+                >
+                  <ProductCard productCard={product} isActive />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+
             <button
               className="controls slider-controls--prev"
               type="button"
               aria-label="Предыдущий слайд"
-              onClick={() => setSimilarProductsCount((prevCount) => prevCount - DISPLAYED_CARDS_IN_SLIDER)}
-              disabled={isReturnButtonDisabled}
             >
               <svg width={7} height={12} aria-hidden="true">
                 <use xlinkHref="#icon-arrow"></use>
@@ -40,8 +48,6 @@ function SimilarProducts({similarProductsList}: SimilarProductsProps): JSX.Eleme
               className="controls slider-controls--next"
               type="button"
               aria-label="Следующий слайд"
-              onClick={() => setSimilarProductsCount((prevCount) => prevCount + DISPLAYED_CARDS_IN_SLIDER)}
-              disabled={isNextButtonDisabled}
             >
               <svg width={7} height={12} aria-hidden="true">
                 <use xlinkHref="#icon-arrow"></use>

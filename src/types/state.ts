@@ -32,4 +32,5 @@ export type Reviews = {
   hasReviewsError: boolean;
   isReviewSending: boolean;
   hasReviewSendingError: boolean;
+  isReviewSentSuccessfully: boolean;
 }

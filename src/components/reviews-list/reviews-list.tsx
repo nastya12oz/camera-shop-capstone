@@ -1,18 +1,35 @@
 import ReviewCard from '../review-card/review-card';
 import ButtonShowMoreReviews from '../button-show-more-reviews/button-show-more-reviews';
-import { useAppSelector } from '../../hooks';
-import { getReviews } from '../../store/reviews-data/reviews-data.selectors';
+import { useAppSelector, useAppDispatch } from '../../hooks';
+import { getReviews, getReviewSentSuccessfullyStatus } from '../../store/reviews-data/reviews-data.selectors';
 import { useState } from 'react';
 import { DISPLAYED_REVIEWS } from '../../const';
 import { sortByDate } from '../../utils';
+import ButtonLeaveReview from '../button-leave-review/button-leave-review';
+import { useEffect } from 'react';
+import ModalReviewSuccess from '../modal-review-success/modal-review-success';
+import { createPortal } from 'react-dom';
+import { fetchReviewsAction } from '../../store/api-actions';
 
 type ReviewsListProps = {
-  onAddReviewButton: () => void;
+  id: number;
 }
 
-function ReviewsList({onAddReviewButton}: ReviewsListProps): JSX.Element {
+function ReviewsList({id}: ReviewsListProps): JSX.Element {
+  const dispatch = useAppDispatch();
   const reviews = useAppSelector(getReviews);
+  const reviewSentSuccessfully = useAppSelector(getReviewSentSuccessfullyStatus);
+
   const [visibleReviewsCount, setVisibleReviewsCount] = useState(DISPLAYED_REVIEWS);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+
+  useEffect(() => {
+    if (reviewSentSuccessfully) {
+      dispatch(fetchReviewsAction(id.toString()));
+      setShowSuccessModal(true);
+    }
+  }, [reviewSentSuccessfully]);
+
 
   const sortedReviews = sortByDate(reviews);
   const visibleReviews = sortedReviews.slice(0, visibleReviewsCount);
@@ -27,7 +44,8 @@ function ReviewsList({onAddReviewButton}: ReviewsListProps): JSX.Element {
         <div className="container">
           <div className="page-content__headed">
             <h2 className="title title--h3">Отзывы</h2>
-            <button className="btn" type="button" onClick={onAddReviewButton}>Оставить свой отзыв</button>
+            <ButtonLeaveReview id={id} />
+
           </div>
           <ul className="review-block__list">
             {
@@ -41,7 +59,13 @@ function ReviewsList({onAddReviewButton}: ReviewsListProps): JSX.Element {
           )}
         </div>
       </section>
+
+      {showSuccessModal && createPortal(
+        <ModalReviewSuccess onClose={() => setShowSuccessModal(false)} />,
+        document.body
+      )}
     </div>
+
 
   );
 }

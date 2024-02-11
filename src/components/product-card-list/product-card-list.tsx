@@ -1,28 +1,21 @@
 import ProductCard from '../product-card/product-card';
-import { TCamerasList, TCamera } from '../../types/cameras';
-import { AppRoute } from '../../const';
-import { useLocation } from 'react-router-dom';
+import { TCamerasList } from '../../types/cameras';
+
 
 type ProductCardListProps = {
   products: TCamerasList;
-  onAddToBasket: (camera: TCamera) => void;
   isActive: boolean;
-
 }
 
-function ProductCardList({products, onAddToBasket, isActive}: ProductCardListProps): JSX.Element {
-  const {pathname} = useLocation();
-  const isCatalogPage = pathname === AppRoute.Catalog;
+function ProductCardList({products, isActive}: ProductCardListProps): JSX.Element {
 
-  const className = isCatalogPage ? 'cards catalog__cards' : 'product-similar__slider-list';
 
   return (
-    <div className={className}>
+    <div className='cards catalog__cards'>
       {products.map((camera) => (
         <ProductCard
           key={camera.id}
           productCard={camera}
-          onAddToBasket={() => onAddToBasket(camera)}
           isActive={isActive}
         />
       ))}

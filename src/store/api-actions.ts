@@ -4,6 +4,7 @@ import { TCamerasList, TCamera } from '../types/cameras';
 import { TPromosList } from '../types/promo';
 import { AppDispatch, State } from '../types/state';
 import { TReviews, TReviewSent } from '../types/reviews';
+import { APIRoute } from '../const';
 
 export const fetchCamerasListAction = createAsyncThunk<TCamerasList, undefined, {
   dispatch: AppDispatch;
@@ -12,7 +13,7 @@ export const fetchCamerasListAction = createAsyncThunk<TCamerasList, undefined, 
 }>(
   'fetchCamerasList',
   async (_arg, { extra: api}) => {
-    const {data} = await api.get<TCamerasList>('https://camera-shop.accelerator.htmlacademy.pro/cameras');
+    const {data} = await api.get<TCamerasList>(APIRoute.Products);
     return data;
   },
 );
@@ -24,7 +25,7 @@ export const fetchCameraByIdAction = createAsyncThunk<TCamera, string, {
 }>(
   'fetchCameraById',
   async (id, { extra: api }) => {
-    const { data } = await api.get<TCamera>(`https://camera-shop.accelerator.htmlacademy.pro/cameras/${id}`);
+    const { data } = await api.get<TCamera>(`${APIRoute.Products}/${id}`);
     return data;
   },
 );
@@ -36,7 +37,7 @@ export const fetchSimilarListAction = createAsyncThunk<TCamerasList, string, {
 }>(
   'fetchSimilarList',
   async (id, { extra: api}) => {
-    const {data} = await api.get<TCamerasList>(`https://camera-shop.accelerator.htmlacademy.pro/cameras/${id}/similar`);
+    const {data} = await api.get<TCamerasList>(`${APIRoute.Products}/${id}/similar`);
     return data;
   },
 );
@@ -48,7 +49,7 @@ export const fetchPromoAction = createAsyncThunk<TPromosList, undefined, {
 }>(
   'fetchPromo',
   async (_arg, { extra: api}) => {
-    const {data} = await api.get<TPromosList>('https://camera-shop.accelerator.htmlacademy.pro/promo');
+    const {data} = await api.get<TPromosList>(APIRoute.Promo);
     return data;
   },
 );
@@ -60,7 +61,7 @@ export const fetchReviewsAction = createAsyncThunk<TReviews, string, {
 }>(
   'fetchReviews',
   async (id: string, { extra: api }) => {
-    const response = await api.get<TReviews>(`https://camera-shop.accelerator.htmlacademy.pro/cameras/${id}/reviews`);
+    const response = await api.get<TReviews>(APIRoute.Reviews.replace('id', id));
     return response.data;
   }
 );
@@ -73,6 +74,6 @@ export const fetchSendReviewAction = createAsyncThunk<void, TReviewSent, {
 }>(
   'fetchSendReviewAction',
   async(data, {extra: api}) => {
-    await api.post<void>('https://camera-shop.accelerator.htmlacademy.pro/reviews', data);
+    await api.post<void>(APIRoute.Review, data);
   }
 );

@@ -5,21 +5,20 @@ import { getCamera, getCameraErrorStatus, getCameraLoadingStatus } from '../../s
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
-import { fetchCameraByIdAction, fetchReviewsAction } from '../../store/api-actions';
+import { fetchCameraByIdAction, fetchReviewsAction, fetchSimilarListAction } from '../../store/api-actions';
 import { Helmet } from 'react-helmet-async';
 import Tabs from '../../components/tabs/tabs';
 import SimilarProducts from '../../components/similar-products/similar-products';
 import RatingStars from '../../components/rating-stars/rating-stars';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import UpButton from '../../components/up-button/up-button';
-import { useState } from 'react';
-import ModalAddReview from '../../components/modal-add-review/modal-add-review';
+import SimilarProductsSwiper from '../../components/similar-products-swiper/similar-products-swiper';
+import ButtonAddToBasket from '../../components/button-add-to-basket/button-add-to-basket';
+import { getSimilarsList } from '../../store/cameras-data/cameras-data.selectors';
+import NotFoundScreen from '../not-found-screen/not-found-screen';
 
 
 function ProductScreen(): JSX.Element {
-
-
-  const [modalInfo, setModalInfo] = useState<boolean>(false);
 
 
   const {id} = useParams();
@@ -27,11 +26,15 @@ function ProductScreen(): JSX.Element {
   const isCameroading = useAppSelector(getCameraLoadingStatus);
   const camera = useAppSelector(getCamera);
   const hasCameraError = useAppSelector(getCameraErrorStatus);
+  const similarProductsList = useAppSelector(getSimilarsList);
+
 
   useEffect(() => {
     if (id) {
       dispatch(fetchCameraByIdAction(id));
       dispatch(fetchReviewsAction(id));
+      dispatch(fetchSimilarListAction(id));
+
     }
   }, [id, dispatch]);
 
@@ -43,7 +46,7 @@ function ProductScreen(): JSX.Element {
 
   if(hasCameraError || !camera) {
     return(
-      <p> hasCameraError...</p>
+      <NotFoundScreen />
     );
   }
 
@@ -74,20 +77,19 @@ function ProductScreen(): JSX.Element {
                     <p className="rate__count"><span className="visually-hidden">Всего оценок:</span>{camera.reviewCount}</p>
                   </div>
                   <p className="product__price"><span className="visually-hidden">Цена:</span>{camera.price} ₽</p>
-                  <button className="btn btn--purple" type="button">
-                    <svg width={24} height={16} aria-hidden="true">
-                      <use xlinkHref="#icon-add-basket"></use>
-                    </svg>Добавить в корзину
-                  </button>
+                  <ButtonAddToBasket product={camera} buttonWithIcon />
                   <Tabs product={camera} />
                 </div>
               </div>
             </section>
           </div>
-          <SimilarProducts id={camera.id.toString()} />
-          <ReviewsList onAddReviewButton={() => setModalInfo(true)} />
+          {
+            similarProductsList && <SimilarProducts similarProductsList={similarProductsList} />
+          /* <SimilarProductsSwiper id={camera.id.toString()} /> */
+          }
+
+          <ReviewsList id={camera.id} />
         </div>
-        {modalInfo && <ModalAddReview cameraId={camera.id.toString()} onClose={() => setModalInfo(false)} />}
       </main>
       <UpButton />
       <Footer />
