@@ -1,67 +1,56 @@
 import classNames from 'classnames';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
+
 
 type PaginationProps = {
   totalPages: number;
-  currentPage: number;
-  onPageChange: (page: number) => void;
 }
 
 
-function Pagination({ totalPages, onPageChange, currentPage }: PaginationProps): JSX.Element {
-  const handlePageClick = (page: number) => {
-    onPageChange(page);
+function Pagination({ totalPages}: PaginationProps): JSX.Element {
+  const { pathname } = useLocation();
+  const [searchParams] = useSearchParams();
+  const currentPageParam = searchParams.get('page');
+
+  const currentPage = currentPageParam ? Number(currentPageParam) : 1;
+
+  const isBackButtonVisible = currentPage > 1;
+  const isNextButtonVisible = currentPage < totalPages;
+
+  const getVisiblePages = (current: number, total: number) => {
+    const pages = [];
+    for (let i = Math.max(1, current - 2); i <= Math.min(current + 2, total); i++) {
+      pages.push(i);
+    }
+    return pages;
   };
 
-  const pages = [];
-  for (let i = 1; i <= totalPages; i++) {
-    if (i === currentPage || i === currentPage + 1 || i === currentPage + 2) {
-      pages.push(
-        <li key={i} className="pagination__item">
-          <a
-            className={classNames('pagination__link', { 'pagination__link--active': currentPage === i })}
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              handlePageClick(i);
-            }}
-          >
-            {i}
-          </a>
-        </li>
-      );
-    }
-  }
-
+  const visiblePages = getVisiblePages(currentPage, totalPages);
   return (
-    <div className="pagination">
+    <div className="pagination" data-testid="pagination-container">
       <ul className="pagination__list">
-        {currentPage > 1 && (
-          <li className="pagination__item">
-            <a
-              className="pagination__link"
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                handlePageClick(currentPage - 1);
-              }}
-            >
+        {isBackButtonVisible && (
+          <li className="pagination__item" data-testid="back-button">
+            <Link className="pagination__link" to={`${pathname}?page=${currentPage - 1}`}>
               Назад
-            </a>
+            </Link>
           </li>
         )}
-        {pages}
-        {currentPage + 2 < totalPages && (
-          <li className="pagination__item">
-            <a
-              className="pagination__link"
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                handlePageClick(currentPage + 3);
-              }}
+        {visiblePages.map((page) => (
+          <li key={page} className="pagination__item">
+            <Link
+              className={classNames('pagination__link', { 'pagination__link--active': currentPage === page })}
+              to={`${pathname}?page=${page}`}
             >
+              {page}
+            </Link>
+          </li>
+        ))}
+        {isNextButtonVisible && (
+          <li className="pagination__item" data-testid="forward-button">
+            <Link className="pagination__link" to={`${pathname}?page=${currentPage + 1}`}>
               Далее
-            </a>
+            </Link>
           </li>
         )}
       </ul>
