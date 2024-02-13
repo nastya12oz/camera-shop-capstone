@@ -25,6 +25,6 @@ export enum NameSpace {
 }
 
 export enum CameraTab {
-  Property = 'Характеристики',
-  Description = 'Описание',
+  Property = 'Property',
+  Description = 'Description',
 }
