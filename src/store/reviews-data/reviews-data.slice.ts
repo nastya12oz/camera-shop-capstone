@@ -5,9 +5,6 @@ import { fetchReviewsAction, fetchSendReviewAction } from '../api-actions';
 
 const initialState: Reviews = {
   reviews: [],
-  review: null,
-  isReviewsLoading: false,
-  hasReviewsError: false,
   isReviewSending: false,
   hasReviewSendingError: false,
   isReviewSentSuccessfully: false
@@ -23,18 +20,8 @@ export const reviewsData = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addCase(fetchReviewsAction.pending, (state) => {
-        state.hasReviewsError = false;
-        state.isReviewsLoading = true;
-      })
       .addCase(fetchReviewsAction.fulfilled, (state, action) => {
-        state.hasReviewsError = false;
-        state.isReviewsLoading = false;
         state.reviews = action.payload;
-      })
-      .addCase(fetchReviewsAction.rejected, (state) => {
-        state.hasReviewsError = true;
-        state.isReviewsLoading = false;
       })
       .addCase(fetchSendReviewAction.pending, (state)=> {
         state.hasReviewSendingError = false;

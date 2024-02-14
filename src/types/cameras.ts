@@ -1,16 +1,16 @@
- enum TCameraType {
+export enum TCameraType {
   Retro = 'Коллекционная',
   Polaroid = 'Моментальная',
   Digital = 'Цифровая',
   Film = 'Плёночная'
 }
 
- enum TCameraCategory {
+export enum TCameraCategory {
   Video = 'Видеокамера',
   Photo = 'Фотоаппарат'
 }
 
- enum TLevel {
+export enum TLevel {
   None = 'Нулевой',
   Amareur = 'Любительский',
   Prof = 'Профессиональный'
@@ -34,3 +34,14 @@ export type TCamera = {
 }
 
 export type TCamerasList = TCamera[];
+
+export type TPromo = {
+  id: number;
+  name: string;
+  previewImg: string;
+  previewImg2x: string;
+  previewImgWebp: string;
+  previewImgWebp2x: string;
+}
+
+export type TPromosList = TPromo[];

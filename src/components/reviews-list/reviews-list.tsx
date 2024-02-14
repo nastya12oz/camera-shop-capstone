@@ -40,7 +40,7 @@ function ReviewsList({id}: ReviewsListProps): JSX.Element {
   const sortedReviews = sortByDate(reviews);
   const visibleReviews = sortedReviews.slice(0, visibleReviewsCount);
 
-  const showMoreReviews = () => {
+  const handleShowMoreReviews = () => {
     setVisibleReviewsCount((current) => Math.min(current + DISPLAYED_REVIEWS, reviews.length));
   };
 
@@ -61,7 +61,7 @@ function ReviewsList({id}: ReviewsListProps): JSX.Element {
           </ul>
 
           {visibleReviewsCount < reviews.length && (
-            <ButtonShowMoreReviews onClick={showMoreReviews} />
+            <ButtonShowMoreReviews onClick={handleShowMoreReviews} />
           )}
         </div>
       </section>

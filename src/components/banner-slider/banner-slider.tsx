@@ -4,8 +4,8 @@ import './banner-slider.css';
 import { Autoplay, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useAppSelector } from '../../hooks';
-import { getPromoList } from '../../store/promo-data/promo-data.selectors';
 import Banner from '../banner/banner';
+import { getPromoList } from '../../store/cameras-data/cameras-data.selectors';
 
 function BannerSlider(): JSX.Element {
   const promoCards = useAppSelector(getPromoList);

@@ -3,6 +3,7 @@ export const REQUEST_TIMEOUT = 5000;
 export const ITEMS_PER_PAGE = 9;
 export const DISPLAYED_CARDS_IN_SLIDER = 3;
 export const DISPLAYED_REVIEWS = 3;
+export const STARS_COUNT = 5;
 
 
 export enum AppRoute {
@@ -19,7 +20,6 @@ export enum APIRoute {
 
 export enum NameSpace {
   Cameras = 'CAMERAS',
-  Promo = 'PROMO',
   Reviews = 'REVIEWS',
   Order = 'ORDER',
 }
@@ -27,4 +27,14 @@ export enum NameSpace {
 export enum CameraTab {
   Property = 'Property',
   Description = 'Description',
+}
+
+export enum TextReviewValues {
+  MIN = 10,
+  MAX = 160
+}
+
+export enum ReviewValues {
+  MIN = 2,
+  MAX = 15
 }
