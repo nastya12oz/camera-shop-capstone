@@ -1,6 +1,6 @@
 import Header from '../../components/header/header';
 import BannerSlider from '../../components/banner-slider/banner-slider';
-import Breadcrumbs from '../../components/breadcrumbs/breadcrumbs/breadcrumbs';
+import Breadcrumbs from '../../components/breadcrumbs/breadcrumbs';
 import ProductCardList from '../../components/product-card-list/product-card-list';
 import Pagination from '../../components/pagination/pagination';
 import CatalogSort from '../../components/catalog-sort/catalog-sort';
@@ -48,7 +48,7 @@ function CatalogScreen(): JSX.Element {
         </Helmet>
         <BannerSlider />
 
-        <div className="page-content">
+        <div className="page-content" data-testid="pageContentElement">
           <Breadcrumbs />
 
           <section className="catalog">

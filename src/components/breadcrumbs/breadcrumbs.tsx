@@ -1,5 +1,5 @@
 import { useLocation, Link } from 'react-router-dom';
-import { AppRoute } from '../../../const';
+import { AppRoute } from '../../const';
 
 type BreadcrumbsProps = {
   productName?: string;

@@ -20,7 +20,7 @@ function BannerSlider(): JSX.Element {
         disableOnInteraction: false,
       }}
     >
-      {promoCards.map((promo) => <SwiperSlide key={promo.id}><Banner promo={promo} /></SwiperSlide>)}
+      {promoCards.map((promo) => <SwiperSlide key={promo.id} data-testid="swiper-slider"><Banner promo={promo}/></SwiperSlide>)}
     </Swiper>
   );
 }

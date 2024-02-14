@@ -1,6 +1,6 @@
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
-import Breadcrumbs from '../../components/breadcrumbs/breadcrumbs/breadcrumbs';
+import Breadcrumbs from '../../components/breadcrumbs/breadcrumbs';
 import { getCamera, getCameraErrorStatus, getCameraLoadingStatus } from '../../store/cameras-data/cameras-data.selectors';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { useParams } from 'react-router-dom';
@@ -50,7 +50,7 @@ function ProductScreen(): JSX.Element {
   }
 
   return(
-    <div className="wrapper">
+    <div className="wrapper" data-testid="product-container">
 
       <Header />
       <main>
