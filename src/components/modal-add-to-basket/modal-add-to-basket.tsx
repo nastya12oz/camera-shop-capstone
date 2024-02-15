@@ -31,13 +31,13 @@ function ModalAddToBasket({product, onClose}: ModalAddToBasketProps): JSX.Elemen
       </div>
       <div className="modal__buttons">
         <button className="btn btn--purple modal__btn modal__btn--fit-width" type="button" onClick={onClose}>
-          <svg width="24" height="16" aria-hidden="true">
+          <svg width={24} height={16} aria-hidden="true">
             <use xlinkHref="#icon-add-basket"></use>
           </svg>Добавить в корзину
         </button>
       </div>
       <button className="cross-btn" type="button" aria-label="Закрыть попап" onClick={onClose}>
-        <svg width="10" height="10" aria-hidden="true">
+        <svg width={10} height={10} aria-hidden="true">
           <use xlinkHref="#icon-close"></use>
         </svg>
       </button>

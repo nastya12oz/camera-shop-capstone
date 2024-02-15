@@ -61,7 +61,7 @@ function ReviewsList({id}: ReviewsListProps): JSX.Element {
           </ul>
 
           {visibleReviewsCount < reviews.length && (
-            <ButtonShowMoreReviews onClick={handleShowMoreReviews} />
+            <ButtonShowMoreReviews onClick={handleShowMoreReviews} data-testid="button-test" />
           )}
         </div>
       </section>

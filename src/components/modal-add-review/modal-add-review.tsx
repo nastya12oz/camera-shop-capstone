@@ -34,7 +34,7 @@ function ModalAddReview({cameraId, onClose}: ModalAddReviewProps): JSX.Element {
   };
 
   return(
-    <Modal onClose={onClose}>
+    <Modal onClose={onClose} data-testid="modal-add-review">
       <p className="title title--h4">Оставить отзыв</p>
       <div className="form-review">
         <form
@@ -50,7 +50,7 @@ function ModalAddReview({cameraId, onClose}: ModalAddReviewProps): JSX.Element {
                   <use xlinkHref="#icon-snowflake"></use>
                 </svg>
               </legend>
-              <div className="rate__bar">
+              <div className="rate__bar" data-testid="rate__bar">
                 <div className="rate__group">
                   {Array.from({length: STARS_COUNT}, (_, i) => 5 - i).map((star) => (
                     <Fragment key={star}>
@@ -100,6 +100,7 @@ function ModalAddReview({cameraId, onClose}: ModalAddReviewProps): JSX.Element {
                     },
                   })}
                   placeholder="Введите ваше имя"
+                  data-testid="name"
                 />
               </label>
               <p className={classNames('custom-input__error', {'custom-textarea__error-active' : errors.userName})}>{errors.userName?.message}</p>
@@ -124,6 +125,7 @@ function ModalAddReview({cameraId, onClose}: ModalAddReviewProps): JSX.Element {
                     },
                   })}
                   placeholder=" Достоинства"
+                  data-testid="advantage"
                 />
               </label>
               <p className={classNames('custom-input__error', {'custom-textarea__error-active' : errors.advantage})}>{errors.advantage?.message}</p>
@@ -148,6 +150,7 @@ function ModalAddReview({cameraId, onClose}: ModalAddReviewProps): JSX.Element {
                     },
                   })}
                   placeholder="Недостатки"
+                  data-testid="disadvantage"
                 />
               </label>
               <p className={classNames('custom-input__error', {'custom-textarea__error-active' : errors.disadvantage})}>{errors.disadvantage?.message}</p>
@@ -172,6 +175,7 @@ function ModalAddReview({cameraId, onClose}: ModalAddReviewProps): JSX.Element {
                     },
                   })}
                   placeholder="Поделитесь своим опытом покупки"
+                  data-testid="comment"
                 >
                 </textarea>
               </label>

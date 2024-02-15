@@ -12,7 +12,7 @@ function ButtonLeaveReview({id}: ButtonLeaveReviewProps): JSX.Element {
 
   return(
     <>
-      <button className="btn" type="button" onClick={() => setShowModal(true)}>Оставить свой отзыв</button>
+      <button className="btn" type="button" onClick={() => setShowModal(true)} data-testid="button-add-review">Оставить свой отзыв</button>
       {showModal && createPortal(
         <ModalAddReview cameraId={id} onClose={() => setShowModal(false)} />,
         document.body
