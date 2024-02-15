@@ -1,6 +1,6 @@
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
-import Breadcrumbs from '../../components/breadcrumbs/breadcrumbs/breadcrumbs';
+import Breadcrumbs from '../../components/breadcrumbs/breadcrumbs';
 import { getCamera, getCameraErrorStatus, getCameraLoadingStatus } from '../../store/cameras-data/cameras-data.selectors';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { useParams } from 'react-router-dom';
@@ -12,7 +12,6 @@ import SimilarProducts from '../../components/similar-products/similar-products'
 import RatingStars from '../../components/rating-stars/rating-stars';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import UpButton from '../../components/up-button/up-button';
-import SimilarProductsSwiper from '../../components/similar-products-swiper/similar-products-swiper';
 import ButtonAddToBasket from '../../components/button-add-to-basket/button-add-to-basket';
 import { getSimilarsList } from '../../store/cameras-data/cameras-data.selectors';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
@@ -51,7 +50,7 @@ function ProductScreen(): JSX.Element {
   }
 
   return(
-    <div className="wrapper">
+    <div className="wrapper" data-testid="product-container">
 
       <Header />
       <main>
@@ -85,7 +84,6 @@ function ProductScreen(): JSX.Element {
           </div>
           {
             similarProductsList && <SimilarProducts similarProductsList={similarProductsList} />
-          /* <SimilarProductsSwiper id={camera.id.toString()} /> */
           }
 
           <ReviewsList id={camera.id} />

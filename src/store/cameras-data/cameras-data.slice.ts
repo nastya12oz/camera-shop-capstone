@@ -1,18 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { CamerasData } from '../../types/state';
 import { NameSpace } from '../../const';
-import { fetchCamerasListAction, fetchCameraByIdAction, fetchSimilarListAction } from '../api-actions';
+import { fetchCamerasListAction, fetchCameraByIdAction, fetchSimilarListAction, fetchPromoAction } from '../api-actions';
 
 const initialState: CamerasData = {
   camerasList: [],
-  hasCamerasListError: false,
-  isCamerasListDataLoading: false,
   camera: null,
   hasCameraError: false,
   isCameraDataLoading: false,
   similarsList: [],
-  hasSimilarsError: false,
-  isSimilasDataLoading: false,
+  promoList: [],
 };
 
 export const camerasData = createSlice({
@@ -21,22 +18,8 @@ export const camerasData = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
-      .addCase(fetchCamerasListAction.pending, (state) => {
-        state.hasCamerasListError = false;
-        state.isCamerasListDataLoading = true;
-      })
       .addCase(fetchCamerasListAction.fulfilled, (state, action) => {
         state.camerasList = action.payload;
-        state.hasCamerasListError = false;
-        state.isCamerasListDataLoading = false;
-      })
-      .addCase(fetchCamerasListAction.rejected, (state) => {
-        state.hasCameraError = true;
-        state.isCameraDataLoading = false;
-      })
-      .addCase(fetchCameraByIdAction.pending, (state) => {
-        state.hasCameraError = false;
-        state.isCameraDataLoading = true;
       })
       .addCase(fetchCameraByIdAction.fulfilled, (state, action) => {
         state.camera = action.payload;
@@ -47,18 +30,15 @@ export const camerasData = createSlice({
         state.hasCameraError = true;
         state.isCameraDataLoading = false;
       })
-      .addCase(fetchSimilarListAction.pending, (state) => {
-        state.hasSimilarsError = false;
-        state.isSimilasDataLoading = true;
+      .addCase(fetchCameraByIdAction.pending, (state) => {
+        state.hasCameraError = false;
+        state.isCameraDataLoading = true;
       })
       .addCase(fetchSimilarListAction.fulfilled, (state, action) => {
         state.similarsList = action.payload;
-        state.hasSimilarsError = false;
-        state.isSimilasDataLoading = false;
       })
-      .addCase(fetchSimilarListAction.rejected, (state) => {
-        state.hasSimilarsError = true;
-        state.isSimilasDataLoading = false;
+      .addCase(fetchPromoAction.fulfilled, (state, action) => {
+        state.promoList = action.payload;
       });
   }
 });

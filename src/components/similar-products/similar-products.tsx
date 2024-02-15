@@ -31,6 +31,7 @@ function SimilarProducts({similarProductsList}: SimilarProductsProps): JSX.Eleme
               aria-label="Предыдущий слайд"
               onClick={() => setSimilarProductsCount((prevCount) => prevCount - DISPLAYED_CARDS_IN_SLIDER)}
               disabled={isReturnButtonDisabled}
+              style={{ pointerEvents: 'auto' }}
             >
               <svg width={7} height={12} aria-hidden="true">
                 <use xlinkHref="#icon-arrow"></use>
@@ -42,6 +43,7 @@ function SimilarProducts({similarProductsList}: SimilarProductsProps): JSX.Eleme
               aria-label="Следующий слайд"
               onClick={() => setSimilarProductsCount((prevCount) => prevCount + DISPLAYED_CARDS_IN_SLIDER)}
               disabled={isNextButtonDisabled}
+              style={{ pointerEvents: 'auto' }}
             >
               <svg width={7} height={12} aria-hidden="true">
                 <use xlinkHref="#icon-arrow"></use>

@@ -1,7 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
-import { TCamerasList, TCamera } from '../types/cameras';
-import { TPromosList } from '../types/promo';
+import { TCamerasList, TCamera, TPromosList } from '../types/cameras';
 import { AppDispatch, State } from '../types/state';
 import { TReviews, TReviewSent } from '../types/reviews';
 import { APIRoute } from '../const';

@@ -1,6 +1,6 @@
 import Header from '../../components/header/header';
 import BannerSlider from '../../components/banner-slider/banner-slider';
-import Breadcrumbs from '../../components/breadcrumbs/breadcrumbs/breadcrumbs';
+import Breadcrumbs from '../../components/breadcrumbs/breadcrumbs';
 import ProductCardList from '../../components/product-card-list/product-card-list';
 import Pagination from '../../components/pagination/pagination';
 import CatalogSort from '../../components/catalog-sort/catalog-sort';
@@ -10,7 +10,7 @@ import { useState, useEffect } from 'react';
 import { ITEMS_PER_PAGE } from '../../const';
 import { useAppSelector } from '../../hooks';
 import { getCamerasList } from '../../store/cameras-data/cameras-data.selectors';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import ModalAddToBasket from '../../components/modal-add-to-basket/modal-add-to-basket';
 import { TModalInfoState } from '../../types/modal-info-state';
 import { Helmet } from 'react-helmet-async';
@@ -18,7 +18,6 @@ import { Helmet } from 'react-helmet-async';
 
 function CatalogScreen(): JSX.Element {
 
-  const navigate = useNavigate();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const pageFromUrl = parseInt(searchParams.get('page') || '1', 10);
@@ -35,11 +34,6 @@ function CatalogScreen(): JSX.Element {
     setCurrentPage(pageFromUrl);
   }, [pageFromUrl]);
 
-  const handlePageChange = (newPage: number) => {
-    setCurrentPage(newPage);
-    const newSearch = newPage > 1 ? `?page=${newPage}` : '';
-    navigate(`${location.pathname}${newSearch}`, { replace: true });
-  };
 
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const displayedCameras = camerasList.slice(startIndex, startIndex + ITEMS_PER_PAGE);
@@ -54,7 +48,7 @@ function CatalogScreen(): JSX.Element {
         </Helmet>
         <BannerSlider />
 
-        <div className="page-content">
+        <div className="page-content" data-testid="pageContentElement">
           <Breadcrumbs />
 
           <section className="catalog">
@@ -71,11 +65,8 @@ function CatalogScreen(): JSX.Element {
                     products={displayedCameras}
                     isActive={false}
                   />
-                  <Pagination
-                    totalPages={totalPages}
-                    onPageChange={handlePageChange}
-                    currentPage={currentPage}
-                  />
+                  { totalPages ? <Pagination totalPages={totalPages} /> : null }
+
                 </div>
 
               </div>

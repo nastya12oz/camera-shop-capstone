@@ -1,13 +1,11 @@
 import classNames from 'classnames';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 
-
 type PaginationProps = {
   totalPages: number;
 }
 
-
-function Pagination({ totalPages}: PaginationProps): JSX.Element {
+function Pagination({ totalPages }: PaginationProps): JSX.Element {
   const { pathname } = useLocation();
   const [searchParams] = useSearchParams();
   const currentPageParam = searchParams.get('page');
@@ -19,12 +17,21 @@ function Pagination({ totalPages}: PaginationProps): JSX.Element {
 
   const getVisiblePages = (current: number, total: number) => {
     const pages = [];
-    for (let i = Math.max(1, current - 2); i <= Math.min(current + 2, total); i++) {
-      pages.push(i);
+
+    if (current === total && total > 2) {
+      pages.push(current - 2, current - 1);
+    } else if (current > 1) {
+      pages.push(current - 1);
     }
+
+    pages.push(current);
+
+    if (current < total) {
+      pages.push(current + 1);
+    }
+
     return pages;
   };
-
   const visiblePages = getVisiblePages(currentPage, totalPages);
   return (
     <div className="pagination" data-testid="pagination-container">

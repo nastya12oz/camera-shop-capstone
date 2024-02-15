@@ -11,7 +11,7 @@ function ProductCardList({products, isActive}: ProductCardListProps): JSX.Elemen
 
 
   return (
-    <div className='cards catalog__cards'>
+    <div className='cards catalog__cards' data-testid="product-test">
       {products.map((camera) => (
         <ProductCard
           key={camera.id}

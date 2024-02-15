@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
-import { TPromo } from '../../types/promo';
+import { TPromo } from '../../types/cameras';
 
 type BannerProps = {
   promo: TPromo;
