@@ -6,8 +6,9 @@ import { Fragment } from 'react';
 import classNames from 'classnames';
 import './modal-add-review.css';
 import Modal from '../modal/modal';
-import { getReviewSendingErrorStatus, getReviewSendingStatus } from '../../store/reviews-data/reviews-data.selectors';
+import { getReviewSendingErrorStatus, getReviewSendingStatus, getReviewSentSuccessfullyStatus } from '../../store/reviews-data/reviews-data.selectors';
 import { TextReviewValues, ReviewValues, STARS_COUNT } from '../../const';
+import { useEffect } from 'react';
 
 
 type ModalAddReviewProps = {
@@ -21,17 +22,20 @@ function ModalAddReview({cameraId, onClose}: ModalAddReviewProps): JSX.Element {
   const isReviewSending = useAppSelector(getReviewSendingStatus);
   const {register, handleSubmit, watch, formState: { errors } } = useForm<TReviewFromData>({mode: 'onChange'});
   const ratingValue = watch('rating');
+  const submittedSuccessfully = useAppSelector(getReviewSentSuccessfullyStatus);
 
   const handleFormSubmit: SubmitHandler<FieldValues> = (data) => {
     if (cameraId) {
       const currentData = {...data, cameraId, rating: Number(data.rating)} as TReviewSent;
       dispatch(fetchSendReviewAction(currentData));
-
-      if (!hasSendindError && !isReviewSending) {
-        onClose();
-      }
     }
   };
+
+  useEffect(() => {
+    if (submittedSuccessfully && !isReviewSending && !hasSendindError) {
+      onClose();
+    }
+  }, [submittedSuccessfully, isReviewSending, hasSendindError, onClose]);
 
   return(
     <Modal onClose={onClose} data-testid="modal-add-review">

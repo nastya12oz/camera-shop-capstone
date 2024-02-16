@@ -42,3 +42,8 @@
   background-color: #f8f8f8;
   pointer-events: none;
 }
+
+.swiper-slide {
+  width: 100%;
+};
+

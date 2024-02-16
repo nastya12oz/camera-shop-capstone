@@ -8,13 +8,13 @@ import { useEffect } from 'react';
 import { fetchCameraByIdAction, fetchReviewsAction, fetchSimilarListAction } from '../../store/api-actions';
 import { Helmet } from 'react-helmet-async';
 import Tabs from '../../components/tabs/tabs';
-import SimilarProducts from '../../components/similar-products/similar-products';
 import RatingStars from '../../components/rating-stars/rating-stars';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import UpButton from '../../components/up-button/up-button';
 import ButtonAddToBasket from '../../components/button-add-to-basket/button-add-to-basket';
 import { getSimilarsList } from '../../store/cameras-data/cameras-data.selectors';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
+import SimilarProductsSwiper from '../../components/similar-products/similar-products-swiper';
 
 
 function ProductScreen(): JSX.Element {
@@ -83,7 +83,8 @@ function ProductScreen(): JSX.Element {
             </section>
           </div>
           {
-            similarProductsList && <SimilarProducts similarProductsList={similarProductsList} />
+            similarProductsList && <SimilarProductsSwiper similarProductsList={similarProductsList} />
+
           }
 
           <ReviewsList id={camera.id} />

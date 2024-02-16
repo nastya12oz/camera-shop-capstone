@@ -17,7 +17,7 @@ function ProductCard({productCard, isActive = false}: ProductCardProps): JSX.Ele
 
 
   return(
-    <div className={classNames('product-card', { 'is-active': isActive })} data-testid="product-card-test">
+    <div className={classNames('product-card', { 'is-active': isActive })} data-testid="product-card-test" style={{ width: '100%' }}>
       <div className="product-card__img">
         <picture>
           <source type="image/webp" srcSet={productCard.previewImgWebp} />
