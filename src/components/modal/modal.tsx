@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 import classNames from 'classnames';
+import FocusLock from 'react-focus-lock';
+
 
 type ModalProps = {
   onClose: () => void;
@@ -30,7 +32,9 @@ function Modal({onClose, children, isNarrow}: ModalProps): JSX.Element {
       <div className="modal__wrapper">
         <div className="modal__overlay" onClick={handleOverlayClick}></div>
         <div className="modal__content">
-          {children}
+          <FocusLock>
+            {children}
+          </FocusLock>
         </div>
       </div>
     </div>

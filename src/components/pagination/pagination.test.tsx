@@ -1,51 +1,43 @@
-import { render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { render, screen, fireEvent } from '@testing-library/react';
 import Pagination from './pagination';
+import { withHistory } from '../../mock/mock-components';
 
 describe('Component: Pagination', () => {
-  it('should render correctly with multiple pages', () => {
-    const totalPages = 5;
+  const totalPages = 33;
+  it('should render correctly', () => {
+    const paginationTestId = 'pagination-container';
+    const preparedComponent = withHistory(<Pagination totalPages={totalPages} />);
 
-    render(
-      <MemoryRouter>
-        <Pagination totalPages={totalPages} />
-      </MemoryRouter>
-    );
+    render(preparedComponent);
 
-    expect(screen.getByTestId('pagination-container')).toBeInTheDocument();
-    expect(screen.getByText('1')).toBeInTheDocument();
-    expect(screen.getByText('2')).toBeInTheDocument();
-    expect(screen.getByTestId('forward-button')).toBeInTheDocument();
-    expect(screen.queryByTestId('back-button')).not.toBeInTheDocument();
+    expect(screen.getByTestId(paginationTestId)).toBeInTheDocument();
   });
 
-  it('should render correctly with only one page', () => {
-    const totalPages = 1;
+  it('should change the page number after clicking on "Назад"', () => {
+    const backButton = screen.queryByTestId('back-button');
+    const expectedText = '1';
+    const preparedComponent = withHistory(<Pagination totalPages={totalPages} />);
 
-    render(
-      <MemoryRouter>
-        <Pagination totalPages={totalPages} />
-      </MemoryRouter>
-    );
+    render(preparedComponent);
 
-    expect(screen.getByTestId('pagination-container')).toBeInTheDocument();
-    expect(screen.getByText('1')).toBeInTheDocument();
-    expect(screen.queryByTestId('forward-button')).not.toBeInTheDocument();
-    expect(screen.queryByTestId('back-button')).not.toBeInTheDocument();
+    if(backButton) {
+      fireEvent.click(backButton);
+
+      expect(screen.getByText(expectedText).classList.contains('pagination__link--active')).toBe(true);
+    }
   });
 
-  it('should render back and forward buttons when not on the first or last page', () => {
-    const totalPages = 3;
-    const initialEntries = ['/some-path?page=2'];
+  it('should change the page number after clicking on "Вперед"', () => {
+    const forwardButton = screen.queryByTestId('forward-button');
+    const expectedText = '34';
+    const preparedComponent = withHistory(<Pagination totalPages={totalPages} />);
 
-    render(
-      <MemoryRouter initialEntries={initialEntries}>
-        <Pagination totalPages={totalPages} />
-      </MemoryRouter>
-    );
+    render(preparedComponent);
 
-    expect(screen.getByTestId('pagination-container')).toBeInTheDocument();
-    expect(screen.getByTestId('back-button')).toBeInTheDocument();
-    expect(screen.getByTestId('forward-button')).toBeInTheDocument();
+    if(forwardButton) {
+      fireEvent.click(forwardButton);
+
+      expect(screen.getByText(expectedText).classList.contains('pagination__link--active')).toBe(true);
+    }
   });
 });

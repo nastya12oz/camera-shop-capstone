@@ -120,12 +120,12 @@ function ModalAddReview({cameraId, onClose}: ModalAddReviewProps): JSX.Element {
                   {...register('advantage', {
                     required: 'Обязательное поле',
                     minLength: {
-                      value: ReviewValues.MIN,
-                      message: 'Минимум 2 символа',
+                      value: TextReviewValues.MIN,
+                      message: 'Минимум 10 символов',
                     },
                     maxLength: {
-                      value: ReviewValues.MAX,
-                      message: 'Максимум 15 символов',
+                      value: TextReviewValues.MAX,
+                      message: 'Максимум 160 символов',
                     },
                   })}
                   placeholder=" Достоинства"
@@ -145,12 +145,12 @@ function ModalAddReview({cameraId, onClose}: ModalAddReviewProps): JSX.Element {
                   {...register('disadvantage', {
                     required: 'Обязательное поле',
                     minLength: {
-                      value: ReviewValues.MIN,
-                      message: 'Минимум 2 символа',
+                      value: TextReviewValues.MIN,
+                      message: 'Минимум 10 символов',
                     },
                     maxLength: {
-                      value: ReviewValues.MAX,
-                      message: 'Максимум 15 символов',
+                      value: TextReviewValues.MAX,
+                      message: 'Максимум 160 символов',
                     },
                   })}
                   placeholder="Недостатки"

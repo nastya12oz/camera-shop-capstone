@@ -30,12 +30,13 @@ function ProductScreen(): JSX.Element {
 
   useEffect(() => {
     if (id) {
+      window.scrollTo(0, 0);
       dispatch(fetchCameraByIdAction(id));
       dispatch(fetchReviewsAction(id));
       dispatch(fetchSimilarListAction(id));
-
     }
   }, [id, dispatch]);
+
 
   if(isCameroading) {
     return(

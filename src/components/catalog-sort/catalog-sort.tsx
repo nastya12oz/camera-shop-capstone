@@ -1,4 +1,9 @@
+import { useState } from 'react';
+
 function CatalogSort(): JSX.Element {
+
+  const [checkedSort, setCheckedSort] = useState('sortPrice');
+
   return(
     <div className="catalog-sort">
       <form action="#">
@@ -6,11 +11,23 @@ function CatalogSort(): JSX.Element {
           <p className="title title--h5">Сортировать:</p>
           <div className="catalog-sort__type">
             <div className="catalog-sort__btn-text">
-              <input type="radio" id="sortPrice" name="sort" />
+              <input
+                type="radio"
+                id="sortPrice"
+                name="sort"
+                checked={checkedSort === 'sortPrice'}
+                onChange={() => setCheckedSort('sortPrice')}
+              />
               <label htmlFor="sortPrice">по цене</label>
             </div>
             <div className="catalog-sort__btn-text">
-              <input type="radio" id="sortPopular" name="sort" />
+              <input
+                type="radio"
+                id="sortPopular"
+                name="sort"
+                checked={checkedSort === 'sortPopular'}
+                onChange={() => setCheckedSort('sortPopular')}
+              />
               <label htmlFor="sortPopular">по популярности</label>
             </div>
           </div>
