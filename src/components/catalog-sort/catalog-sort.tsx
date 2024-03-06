@@ -1,8 +1,13 @@
-import { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { setSortType } from '../../store/sort-process/sort-process.slice';
+import { getSortType } from '../../store/sort-process/sort-process.selectors';
+import { SortDirection, SortType } from '../../const';
+
 
 function CatalogSort(): JSX.Element {
 
-  const [checkedSort, setCheckedSort] = useState('sortPrice');
+  const dispatch = useAppDispatch();
+  const sortType = useAppSelector(getSortType);
 
   return(
     <div className="catalog-sort">
@@ -15,8 +20,14 @@ function CatalogSort(): JSX.Element {
                 type="radio"
                 id="sortPrice"
                 name="sort"
-                checked={checkedSort === 'sortPrice'}
-                onChange={() => setCheckedSort('sortPrice')}
+                checked = {sortType.type === SortType.Price}
+                onChange={() => {
+                  if (sortType.direction === SortDirection.Default) {
+                    dispatch(setSortType({direction: SortDirection.Up, type: SortType.Price}));
+                  } else {
+                    dispatch(setSortType({...sortType, type: SortType.Price}));
+                  }
+                }}
               />
               <label htmlFor="sortPrice">по цене</label>
             </div>
@@ -25,25 +36,60 @@ function CatalogSort(): JSX.Element {
                 type="radio"
                 id="sortPopular"
                 name="sort"
-                checked={checkedSort === 'sortPopular'}
-                onChange={() => setCheckedSort('sortPopular')}
+                checked = {sortType.type === SortType.Popular}
+                onChange={() => {
+                  if (sortType.direction === SortDirection.Default) {
+                    dispatch(setSortType({direction: SortDirection.Up, type: SortType.Popular}));
+                  } else {
+                    dispatch(setSortType({...sortType, type: SortType.Popular}));
+                  }
+                }}
               />
               <label htmlFor="sortPopular">по популярности</label>
             </div>
           </div>
           <div className="catalog-sort__order">
             <div className="catalog-sort__btn catalog-sort__btn--up">
-              <input type="radio" id="up" name="sort-icon" aria-label="По возрастанию" data-testid="up-sort" />
+              <input
+                type="radio"
+                id="up"
+                name="sort-icon"
+                aria-label="По возрастанию"
+                data-testid="up-sort"
+                checked = {sortType.direction === SortDirection.Up}
+                onChange={() => {
+                  if (sortType.type === SortType.Default) {
+                    dispatch(setSortType({type: SortType.Price, direction: SortDirection.Up}));
+                  } else {
+                    dispatch(setSortType({...sortType, direction: SortDirection.Up}));
+                  }
+                }}
+              />
+
               <label htmlFor="up">
-                <svg width="16" height="14" aria-hidden="true">
+                <svg width={16} height={14} aria-hidden="true">
                   <use xlinkHref="#icon-sort"></use>
                 </svg>
               </label>
             </div>
             <div className="catalog-sort__btn catalog-sort__btn--down">
-              <input type="radio" id="down" name="sort-icon" aria-label="По убыванию" data-testid="down-sort" />
+              <input
+                type="radio"
+                id="down"
+                name="sort-icon"
+                aria-label="По убыванию"
+                data-testid="down-sort"
+                checked = {sortType.direction === SortDirection.Down}
+                onChange={() => {
+                  if (sortType.type === SortType.Default) {
+                    dispatch(setSortType({type: SortType.Price, direction: SortDirection.Down}));
+                  } else {
+                    dispatch(setSortType({...sortType, direction: SortDirection.Down}));
+                  }
+                }}
+              />
               <label htmlFor="down">
-                <svg width="16" height="14" aria-hidden="true">
+                <svg width={16} height={14} aria-hidden="true">
                   <use xlinkHref="#icon-sort"></use>
                 </svg>
               </label>
