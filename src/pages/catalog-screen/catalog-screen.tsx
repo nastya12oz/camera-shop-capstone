@@ -14,6 +14,10 @@ import { useLocation } from 'react-router-dom';
 import ModalAddToBasket from '../../components/modal-add-to-basket/modal-add-to-basket';
 import { TModalInfoState } from '../../types/modal-info-state';
 import { Helmet } from 'react-helmet-async';
+import { getSortedCameras } from '../../utils';
+import { getSortType } from '../../store/sort-process/sort-process.selectors';
+import { TFilterCategory, FilterType, LevelFilterType } from '../../const';
+import { getFilteredCameras } from '../../utils';
 
 
 function CatalogScreen(): JSX.Element {
@@ -24,10 +28,25 @@ function CatalogScreen(): JSX.Element {
 
   const [currentPage, setCurrentPage] = useState(1);
   const camerasList = useAppSelector(getCamerasList);
-  const totalPages = Math.ceil(camerasList.length / ITEMS_PER_PAGE);
+
+
+  const category = searchParams.get('category') as TFilterCategory;
+  const type = searchParams.get('type')?.split(',') as FilterType[];
+  const level = searchParams.get('level')?.split(',') as LevelFilterType[];
+  const minPrice = Number(searchParams.get('_start'));
+  const maxPrice = Number(searchParams.get('_end'));
+  const filteredCameras = getFilteredCameras(camerasList, category, type, level, minPrice, maxPrice);
+
+  // console.log(filteredCameras);
 
 
   const [modalInfo, setModalInfo] = useState<TModalInfoState>({ isVisible: false, product: null });
+
+  const sortType = useAppSelector(getSortType);
+  const sortedCameras = getSortedCameras(filteredCameras, sortType); //после фильтра
+
+
+  const totalPages = Math.ceil(sortedCameras.length / ITEMS_PER_PAGE);
 
 
   useEffect(() => {
@@ -36,15 +55,15 @@ function CatalogScreen(): JSX.Element {
 
 
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const displayedCameras = camerasList.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  const displayedCameras = sortedCameras.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
 
-  return(
+  return (
     <div className="wrapper">
       <Header />
       <main>
         <Helmet>
-        Каталог - Фотошоп
+          Каталог - Фотошоп
         </Helmet>
         <BannerSlider />
 
@@ -56,27 +75,27 @@ function CatalogScreen(): JSX.Element {
               <h1 className="title title--h2">Каталог фото- и видеотехники</h1>
 
               <div className="page-content__columns">
-
                 <CatalogFilter />
 
                 <div className="catalog__content">
                   <CatalogSort />
-                  <ProductCardList
-                    products={displayedCameras}
-                    isActive={false}
-                  />
-                  { totalPages ? <Pagination totalPages={totalPages} /> : null }
-
+                  {filteredCameras.length > 0 ? (
+                    <>
+                      <ProductCardList
+                        products={displayedCameras}
+                        isActive={false}
+                      />
+                      {totalPages ? <Pagination totalPages={totalPages} /> : null}
+                    </>
+                  ) : (
+                    <p>По вашему запросу ничего не найдено...</p>
+                  )}
                 </div>
-
               </div>
-
             </div>
           </section>
-
         </div>
         {modalInfo.isVisible && modalInfo.product && <ModalAddToBasket product={modalInfo.product} onClose={() => setModalInfo({ isVisible: false, product: null })} />}
-
       </main>
 
       <Footer />

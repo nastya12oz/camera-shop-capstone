@@ -23,6 +23,7 @@ export enum NameSpace {
   Cameras = 'CAMERAS',
   Reviews = 'REVIEWS',
   Order = 'ORDER',
+  Sort = 'SORT'
 }
 
 export enum CameraTab {
@@ -39,3 +40,63 @@ export enum ReviewValues {
   MIN = 2,
   MAX = 15
 }
+
+export enum SortType {
+  Default ='',
+  Price = 'price',
+  Popular = 'popular',
+}
+
+export enum SortDirection {
+  Default = '',
+  Up = 'up',
+  Down = 'down'
+}
+
+export enum FilterType {
+  Digital = 'digital',
+  Film = 'film',
+  Snapshot = 'snapshot',
+  Collection = 'collection',
+}
+
+export enum LevelFilterType {
+  Zero = 'zero',
+  NonProfessional = 'non-professional',
+  Professional = 'professional',
+}
+
+export enum Filter {
+  Category = 'category',
+  Type = 'type',
+  Level = 'level',
+}
+
+export enum TFilterCategory {
+  Photocamera = 'photocamera',
+  Videocamera = 'videocamera',
+}
+
+export const FilterNameSpace = {
+  photocamera: 'Фотокамера',
+  videocamera: 'Видеокамера',
+  digital: 'Цифровая',
+  film: 'Плёночная',
+  snapshot: 'Моментальная',
+  collection: 'Коллекционная',
+  zero: 'Нулевой',
+  ['non-professional']: 'Любительский',
+  professional: 'Профессиональный',
+};
+
+export const FilterName = {
+  photocamera: 'Фотоаппарат',
+  videocamera: 'Видеокамера',
+  digital: 'Цифровая',
+  film: 'Плёночная',
+  snapshot: 'Моментальная',
+  collection: 'Коллекционная',
+  zero: 'Нулевой',
+  ['non-professional']: 'Любительский',
+  professional: 'Профессиональный',
+};

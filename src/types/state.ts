@@ -1,6 +1,7 @@
 import { store } from '../store/index';
 import { TCamerasList, TCamera, TPromosList } from './cameras';
 import { TReviews } from './reviews';
+import { SortDirection, SortType } from '../const';
 
 
 export type State = ReturnType<typeof store.getState>;
@@ -13,6 +14,7 @@ export type CamerasData = {
   isCameraDataLoading: boolean;
   similarsList: TCamerasList;
   promoList: TPromosList;
+  filteredCameras: TCamerasList;
 }
 
 export type Reviews = {
@@ -21,3 +23,13 @@ export type Reviews = {
   hasReviewSendingError: boolean;
   isReviewSentSuccessfully: boolean;
 }
+
+export type TSort = {
+  type: SortType;
+  direction: SortDirection;
+}
+
+
+export type SortProcess = {
+  sortType: TSort;
+};

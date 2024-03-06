@@ -24,7 +24,7 @@ function SearchForm(): JSX.Element {
   return(
 
     <div className={classNames('form-search', {'list-opened': searchedCameras?.length})}>
-      <FocusLock >
+      <FocusLock disabled={!searchedCameras?.length}>
         <form>
           <label>
             <svg className="form-search__icon" width={16} height={16} aria-hidden="true">

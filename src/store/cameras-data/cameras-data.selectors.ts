@@ -9,3 +9,4 @@ export const getCameraErrorStatus = (state: Pick<State, NameSpace.Cameras>): boo
 export const getSimilarsList = (state: Pick<State, NameSpace.Cameras>): TCamerasList => state[NameSpace.Cameras].similarsList;
 export const getCameraLoadingStatus = (state: Pick<State, NameSpace.Cameras>): boolean => state[NameSpace.Cameras].isCameraDataLoading;
 export const getPromoList = (state: Pick<State, NameSpace.Cameras>): TPromosList => state[NameSpace.Cameras].promoList;
+export const getFilteresCameras = (state: Pick<State, NameSpace.Cameras>): TCamerasList => state[NameSpace.Cameras].filteredCameras;

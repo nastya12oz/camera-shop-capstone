@@ -1,7 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CamerasData } from '../../types/state';
 import { NameSpace } from '../../const';
 import { fetchCamerasListAction, fetchCameraByIdAction, fetchSimilarListAction, fetchPromoAction } from '../api-actions';
+import { TCamerasList } from '../../types/cameras';
 
 const initialState: CamerasData = {
   camerasList: [],
@@ -10,12 +11,17 @@ const initialState: CamerasData = {
   isCameraDataLoading: false,
   similarsList: [],
   promoList: [],
+  filteredCameras: []
 };
 
 export const camerasData = createSlice({
   name: NameSpace.Cameras,
   initialState,
-  reducers: {},
+  reducers: {
+    setFilteredCamerass: (state, action: PayloadAction<TCamerasList>) => {
+      state.filteredCameras = action.payload;
+    }
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchCamerasListAction.fulfilled, (state, action) => {
