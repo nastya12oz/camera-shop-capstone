@@ -32,7 +32,9 @@ describe('Application Routing', () => {
         similarsList: [],
         promoList: [],
         hasCameraError: false,
-        isCameraDataLoading: false
+        isCameraDataLoading: false,
+        filteredCameras: [],
+        isCameraListLoading: false
       }
     }));
 

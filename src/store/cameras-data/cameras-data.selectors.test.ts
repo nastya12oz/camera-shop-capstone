@@ -12,6 +12,8 @@ describe('product-process selectors', () => {
       isCameraDataLoading: false,
       similarsList: makeFakeCameras(),
       promoList: makeFakePromo(),
+      filteredCameras: makeFakeCameras(),
+      isCameraListLoading: false
     }
   };
 
