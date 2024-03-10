@@ -13,7 +13,9 @@ describe('Component: Catalog List', () => {
       similarsList: [],
       promoList: [],
       hasCameraError: false,
-      isCameraDataLoading: false
+      isCameraDataLoading: false,
+      filteredCameras: [],
+      isCameraListLoading: false
     }
   });
 

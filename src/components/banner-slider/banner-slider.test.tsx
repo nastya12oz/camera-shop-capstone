@@ -14,6 +14,8 @@ describe('Component: Banner Slider', () => {
       promoList,
       hasCameraError: false,
       isCameraDataLoading: false,
+      filteredCameras: [],
+      isCameraListLoading: false
     }
   });
 

@@ -12,7 +12,9 @@ describe('Component: Catalog Screen', () => {
       similarsList: [],
       promoList: [],
       hasCameraError: false,
-      isCameraDataLoading: false
+      isCameraDataLoading: false,
+      filteredCameras: [],
+      isCameraListLoading: false
     }
   });
   it('should render correctly', () => {

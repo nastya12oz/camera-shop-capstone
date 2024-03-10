@@ -12,7 +12,9 @@ describe('Component: Product Card', () => {
       similarsList: [],
       promoList: [],
       hasCameraError: false,
-      isCameraDataLoading: false
+      isCameraDataLoading: false,
+      filteredCameras: [],
+      isCameraListLoading: false
     }
   });
 
