@@ -15,10 +15,10 @@ import ButtonAddToBasket from '../../components/button-add-to-basket/button-add-
 import { getSimilarsList } from '../../store/cameras-data/cameras-data.selectors';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import SimilarProductsSwiper from '../../components/similar-products/similar-products-swiper';
+import LoaderScreen from '../loader-screen/loader-screen';
 
 
 function ProductScreen(): JSX.Element {
-
 
   const {id} = useParams();
   const dispatch = useAppDispatch();
@@ -40,7 +40,7 @@ function ProductScreen(): JSX.Element {
 
   if(isCameroading) {
     return(
-      <p> Loading...</p>
+      <LoaderScreen />
     );
   }
 
@@ -83,9 +83,9 @@ function ProductScreen(): JSX.Element {
               </div>
             </section>
           </div>
+
           {
             similarProductsList && <SimilarProductsSwiper similarProductsList={similarProductsList} />
-
           }
 
           <ReviewsList id={camera.id} />
