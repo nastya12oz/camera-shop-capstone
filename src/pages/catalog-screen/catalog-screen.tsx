@@ -9,7 +9,7 @@ import Footer from '../../components/footer/footer';
 import { useState, useEffect } from 'react';
 import { ITEMS_PER_PAGE } from '../../const';
 import { useAppSelector } from '../../hooks';
-import { getCamerasList } from '../../store/cameras-data/cameras-data.selectors';
+import { getCamerasList, getCamerasListLoadingStatus } from '../../store/cameras-data/cameras-data.selectors';
 import { useLocation } from 'react-router-dom';
 import ModalAddToBasket from '../../components/modal-add-to-basket/modal-add-to-basket';
 import { TModalInfoState } from '../../types/modal-info-state';
@@ -18,6 +18,7 @@ import { getSortedCameras } from '../../utils';
 import { getSortType } from '../../store/sort-process/sort-process.selectors';
 import { TFilterCategory, FilterType, LevelFilterType } from '../../const';
 import { getFilteredCameras } from '../../utils';
+import LoaderScreen from '../loader-screen/loader-screen';
 
 
 function CatalogScreen(): JSX.Element {
@@ -57,6 +58,11 @@ function CatalogScreen(): JSX.Element {
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const displayedCameras = sortedCameras.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
+  const isCameraListLoading = useAppSelector(getCamerasListLoadingStatus);
+
+  if (isCameraListLoading) {
+    return <LoaderScreen />;
+  }
 
   return (
     <div className="wrapper">
@@ -88,7 +94,7 @@ function CatalogScreen(): JSX.Element {
                       {totalPages ? <Pagination totalPages={totalPages} /> : null}
                     </>
                   ) : (
-                    <p>По вашему запросу ничего не найдено...</p>
+                    <p>По вашему запросу ничего не найдено. Пожалуйста, измените критерий поиска.</p>
                   )}
                 </div>
               </div>

@@ -12,6 +12,7 @@ export type CamerasData = {
   camerasList: TCamerasList;
   hasCameraError: boolean;
   isCameraDataLoading: boolean;
+  isCameraListLoading: boolean;
   similarsList: TCamerasList;
   promoList: TPromosList;
   filteredCameras: TCamerasList;

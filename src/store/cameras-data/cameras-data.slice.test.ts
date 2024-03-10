@@ -3,37 +3,34 @@ import { fetchCamerasListAction, fetchCameraByIdAction, fetchSimilarListAction, 
 import { camerasData } from './cameras-data.slice';
 
 describe('cameras data slice', () => {
+  const initialState = {
+    camerasList: [],
+    camera: null,
+    hasCameraError: false,
+    isCameraDataLoading: false,
+    isCameraListLoading: false,
+    similarsList: [],
+    promoList: [],
+    filteredCameras: []
+  };
+
   it('should return initial state with empty action', () => {
-    const emptyAction = {type: ''};
+    const emptyAction = { type: '' };
+    const result = camerasData.reducer(initialState, emptyAction);
+    expect(result).toEqual(initialState);
+  });
+
+  it('should set "camerasList" to array with cameras with "fetchCamerasListAction.fulfilled"', () => {
+    const camerasList = makeFakeCameras();
     const expectedState = {
-      camerasList: makeFakeCameras(),
-      camera: makeFakeCamera(),
-      hasCameraError: false,
-      isCameraDataLoading: false,
-      similarsList: makeFakeCameras(),
-      promoList: makeFakePromo(),
+      ...initialState,
+      camerasList,
+      isCameraListLoading: false
     };
-
-    const result = camerasData.reducer(expectedState, emptyAction);
-
+    const result = camerasData.reducer(undefined, fetchCamerasListAction.fulfilled(camerasList, '', undefined));
     expect(result).toEqual(expectedState);
   });
 
-  it('should return default initial state with empty action and undefined state', () => {
-    const emptyAction = {type: ''};
-    const expectedState = {
-      camerasList: [],
-      camera: null,
-      hasCameraError: false,
-      isCameraDataLoading: false,
-      similarsList: [],
-      promoList: []
-    };
-
-    const result = camerasData.reducer(undefined, emptyAction);
-
-    expect(result).toEqual(expectedState);
-  });
 
   it('should set "camerasList" to array with cameras with "fetchCamerasListAction.fulfilled"', () => {
     const camerasList = makeFakeCameras();
@@ -44,6 +41,8 @@ describe('cameras data slice', () => {
       isCameraDataLoading: false,
       similarsList: [],
       promoList: [],
+      filteredCameras: [],
+      isCameraListLoading: false,
     };
 
     const result = camerasData.reducer(undefined, fetchCamerasListAction.fulfilled(camerasList, '', undefined));
@@ -59,6 +58,8 @@ describe('cameras data slice', () => {
       isCameraDataLoading: false,
       similarsList: [],
       promoList: [],
+      filteredCameras: [],
+      isCameraListLoading: false,
     };
 
     const result = camerasData.reducer(undefined, fetchCameraByIdAction.rejected);
@@ -75,6 +76,8 @@ describe('cameras data slice', () => {
       isCameraDataLoading: false,
       similarsList: [],
       promoList: [],
+      filteredCameras: [],
+      isCameraListLoading: false,
     };
 
     const result = camerasData.reducer(undefined, fetchCameraByIdAction.fulfilled(camera, '', String(camera.id)));
@@ -90,6 +93,8 @@ describe('cameras data slice', () => {
       isCameraDataLoading: true,
       similarsList: [],
       promoList: [],
+      filteredCameras: [],
+      isCameraListLoading: false,
     };
 
     const result = camerasData.reducer(undefined, fetchCameraByIdAction.pending);
@@ -106,6 +111,8 @@ describe('cameras data slice', () => {
       isCameraDataLoading: false,
       similarsList: [],
       promoList: [],
+      filteredCameras: [],
+      isCameraListLoading: false,
     };
 
     const result = camerasData.reducer(undefined, fetchCameraByIdAction.fulfilled(camera, '', String(camera.id)));
@@ -122,7 +129,9 @@ describe('cameras data slice', () => {
       similarsList,
       promoList: [],
       isCameraDataLoading: false,
-      hasCameraError: false
+      hasCameraError: false,
+      filteredCameras: [],
+      isCameraListLoading: false,
     };
 
     const result = camerasData.reducer(undefined, fetchSimilarListAction.fulfilled(similarsList, '', String(id)));
@@ -139,7 +148,9 @@ it('should set "promoList" to array with promo cameras with "fetchPromoAction.fu
     similarsList: [],
     promoList,
     isCameraDataLoading: false,
-    hasCameraError: false
+    hasCameraError: false,
+    filteredCameras: [],
+    isCameraListLoading: false,
   };
 
   const result = camerasData.reducer(undefined, fetchPromoAction.fulfilled(promoList,'', undefined));

@@ -6,6 +6,7 @@ import { ThunkDispatch } from 'redux-thunk';
 import { State } from '../types/state';
 import { Action } from 'redux';
 import { createAPI } from '../services/api';
+import { SortType, SortDirection } from '../const';
 
 export type AppThunkDispatch = ThunkDispatch<State, ReturnType<typeof createAPI>, Action>;
 
@@ -71,6 +72,8 @@ export const makeFakeStore = (initialState?: Partial<State>): State => ({
     similarsList: [],
     isCameraDataLoading: false,
     promoList: [],
+    isCameraListLoading: false,
+    filteredCameras: [],
   },
   REVIEWS: {
     reviews: [],
@@ -78,5 +81,11 @@ export const makeFakeStore = (initialState?: Partial<State>): State => ({
     hasReviewSendingError: false,
     isReviewSentSuccessfully: false,
   },
-  ...initialState ?? {},
+  SORT: {
+    sortType: {
+      type: SortType.Default,
+      direction: SortDirection.Default,
+    },
+  },
+  ...initialState,
 });

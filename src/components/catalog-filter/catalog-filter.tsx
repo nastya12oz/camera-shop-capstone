@@ -144,7 +144,7 @@ function CatalogFilter(): JSX.Element {
                     onChange={(evt) => handlePriceChange(evt, true)}
                     onBlur={handlePriceBlur}
 
-                    id="coast"
+                    id="cost"
                   />
                 </label>
               </div>
@@ -158,7 +158,7 @@ function CatalogFilter(): JSX.Element {
                     onBlur={handlePriceBlur}
 
                     value={maxPrice || ''}
-                    id="coast"
+                    id="cost"
                   />
                 </label>
               </div>

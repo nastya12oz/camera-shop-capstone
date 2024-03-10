@@ -4,6 +4,8 @@ import { TCamerasList, TCamera, TPromosList } from '../types/cameras';
 import { AppDispatch, State } from '../types/state';
 import { TReviews, TReviewSent } from '../types/reviews';
 import { APIRoute } from '../const';
+import { toast } from 'react-toastify';
+
 
 export const fetchCamerasListAction = createAsyncThunk<TCamerasList, undefined, {
   dispatch: AppDispatch;
@@ -72,7 +74,12 @@ export const fetchSendReviewAction = createAsyncThunk<void, TReviewSent, {
   extra: AxiosInstance;
 }>(
   'fetchSendReviewAction',
-  async(data, {extra: api}) => {
-    await api.post<void>(APIRoute.Review, data);
+  async (data, { extra: api }) => {
+    try {
+      await api.post<void>(APIRoute.Review, data);
+    } catch (error) {
+      toast.error('Ошибка при загрузке комментария');
+      throw error;
+    }
   }
 );
